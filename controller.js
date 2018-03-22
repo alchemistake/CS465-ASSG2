@@ -1,4 +1,10 @@
 var animator = document.getElementById("animator");
+var variables = [{
+    "name": "Camera 1",
+    "min": -180,
+    "max": 180,
+    "val": 0
+}];
 
 function addKeyFrame() {
     var nof = document.createElement("div");
@@ -37,13 +43,43 @@ function filterVariables() {
     var box = document.getElementById("filter");
     var value = box.value;
     box.value = "";
-    var variables = document.getElementsByClassName("variables");
+    var variables = document.getElementsByClassName("variable");
     for (var i = 0; i < variables.length; i++) {
-        if(variables[i].innerHTML.toLowerCase().indexOf(value.toLowerCase()) < 0)
-            variables[i].hidden = true;
-        else
-            variables[i].hidden = false;
+        variables[i].hidden = variables[i].innerText.toLowerCase().indexOf(value.toLowerCase()) < 0;
     }
+
+    return false;
+}
+
+function generateVariables() {
+    var wrapper = document.getElementById("variables");
+    for (var i = 0; i < variables.length; i++) {
+        var obj = variables[i];
+
+        var inject = document.createElement("li");
+        inject.className = "variable";
+        var slider = document.createElement("input");
+        var span = document.createElement("span");
+
+        slider.type = "range";
+        slider.min = obj.min;
+        slider.max = obj.max;
+        slider.value = obj.val;
+        slider.oninput = function () {
+            span.innerText = slider.value;
+        };
+
+        span.innerText = slider.value;
+
+        inject.appendChild(document.createTextNode(obj.name + ": " + obj.min));
+        inject.appendChild(slider);
+        inject.appendChild(document.createTextNode(obj.max + " Current: "));
+        inject.appendChild(span);
+
+        wrapper.appendChild(inject);
+    }
+
 }
 
 addKeyFrame();
+generateVariables();

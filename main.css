@@ -1,30 +1,54 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     height: 100vh;
+    width: auto;
 }
 
 table {
-    height: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
     width: 100%;
+    max-width: 100%;
+
+    height: 100vh;
+    max-height: 100vh;
+}
+
+td {
+    overflow: auto;
+    width: 100%;
+    vertical-align: top;
 }
 
 h1 {
     text-align: center;
 }
 
-#title {
-    height: 10%;
+input {
+    text-align: center;
 }
 
 .keyframe {
     text-align: center;
     width: fit-content;
-
 }
 
-input {
-    text-align: center;
+#title {
+    height: 10%;
 }
 
 #animator {
     display: inline-flex;
+}
+
+#filter {
+    width: 98%;
+    margin: 1%;
+}
+
+#canvas-wrapper{
+    height: 50vh;
 }

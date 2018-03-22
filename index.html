@@ -8,29 +8,25 @@
 <body>
 <table>
     <tr>
-        <td id="title" colspan="2">
+        <td id="title">
             <h1>Cat Animator 9000</h1>
         </td>
     </tr>
+    <tr id="canvas-wrapper">
+        <td style="background: aqua;"></td>
+    </tr>
     <tr>
-        <td style="background: aqua;width: 50%;"></td>
-        <td style="background: red;width: 50%;">
-            <form action="#" onsubmit="filterVariables()">
-                <input id="filter" type="text">
+        <td style="background: red;">
+            <form action="#" onsubmit="return filterVariables()">
+                <input title="Search" id="filter" type="text" autocomplete="off">
                 <input type="submit" hidden>
             </form>
-            <ul>
-                <li class="variables">Camera 1</li>
-                <li class="variables">Camera 2</li>
-                <li class="variables">Cat 1</li>
-                <li class="variables">Cat 2</li>
-                <li class="variables">Cat 3</li>
-                <li class="variables">Leg 3</li>
+            <ul id="variables" style="text-align: center">
             </ul>
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
             <div id="animator">
                 <button onclick="addKeyFrame()" id="addKeyframe">Add</button>
             </div>
