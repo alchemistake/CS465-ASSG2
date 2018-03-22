@@ -13,11 +13,24 @@
         </td>
     </tr>
     <tr>
-        <td style="background: aquamarine"></td>
-        <td style="background: red"></td>
+        <td style="background: aqua;width: 50%;"></td>
+        <td style="background: red;width: 50%;">
+            <form action="#" onsubmit="filterVariables()">
+                <input id="filter" type="text">
+                <input type="submit" hidden>
+            </form>
+            <ul>
+                <li class="variables">Camera 1</li>
+                <li class="variables">Camera 2</li>
+                <li class="variables">Cat 1</li>
+                <li class="variables">Cat 2</li>
+                <li class="variables">Cat 3</li>
+                <li class="variables">Leg 3</li>
+            </ul>
+        </td>
     </tr>
     <tr>
-        <td style="background: aqua" colspan="2">
+        <td colspan="2">
             <div id="animator">
                 <button onclick="addKeyFrame()" id="addKeyframe">Add</button>
             </div>

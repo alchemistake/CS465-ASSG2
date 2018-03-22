@@ -33,4 +33,17 @@ function fixKeyFrameNumbering() {
     }
 }
 
+function filterVariables() {
+    var box = document.getElementById("filter");
+    var value = box.value;
+    box.value = "";
+    var variables = document.getElementsByClassName("variables");
+    for (var i = 0; i < variables.length; i++) {
+        if(variables[i].innerHTML.toLowerCase().indexOf(value.toLowerCase()) < 0)
+            variables[i].hidden = true;
+        else
+            variables[i].hidden = false;
+    }
+}
+
 addKeyFrame();
