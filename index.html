@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CS465 ASSG2</title>
+    <style>
+        body {
+            height: 100vh;
+        }
+
+        table {
+            height: 100%;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #title {
+            height: 10%;
+        }
+
+        .keyframe {
+            text-align: center;
+            width: fit-content;
+
+        }
+
+        input {
+            text-align: center;
+        }
+
+        #animator {
+            display: inline-flex;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <td id="title" colspan="2">
+            <h1>Cat Animator 9000</h1>
+        </td>
+    </tr>
+    <tr>
+        <td style="background: aquamarine"></td>
+        <td style="background: red"></td>
+    </tr>
+    <tr>
+        <td style="background: aqua" colspan="2">
+            <div id="animator">
+                <div class="keyframe">
+                    <button class="loadKeyframe">KF 1</button>
+                    <br>
+                    <button class="deleteKeyframe">Delete</button>
+                </div>
+                <input style="width: 40px" size="3" value="10" type="number">
+                <button id="addKeyframe">Add</button>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
