@@ -65,9 +65,7 @@ function generateVariables() {
         slider.min = obj.min;
         slider.max = obj.max;
         slider.value = obj.val;
-        slider.oninput = (function () {
-            span.innerText = slider.value;
-        })();
+        slider.oninput = updateSliderIndicator(slider, span);
 
         span.innerText = slider.value;
 
@@ -79,6 +77,12 @@ function generateVariables() {
         wrapper.appendChild(inject);
     }
 
+}
+
+function updateSliderIndicator(slider, span) {
+    return function() {
+        span.innerText = slider.value;
+    }
 }
 
 addKeyFrame();
