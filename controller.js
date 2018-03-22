@@ -65,9 +65,9 @@ function generateVariables() {
         slider.min = obj.min;
         slider.max = obj.max;
         slider.value = obj.val;
-        slider.oninput = function () {
+        slider.oninput = (function () {
             span.innerText = slider.value;
-        };
+        })();
 
         span.innerText = slider.value;
 
