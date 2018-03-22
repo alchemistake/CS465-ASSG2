@@ -1,10 +1,66 @@
 var animator = document.getElementById("animator");
-var variables = [{
-    "name": "Camera 1",
-    "min": -180,
-    "max": 180,
-    "val": 0
-}];
+var variables = [
+    {
+        "name": "torso",
+        "min": -180,
+        "max": 180,
+        "val": 0
+    },{
+        "name": "head",
+        "min": -180,
+        "max": 180,
+        "val": 0
+    },{
+        "name": "head1",
+        "min": -180,
+        "max": 180,
+        "val": 0
+    },{
+        "name": "head2",
+        "min": -180,
+        "max": 180,
+        "val": 0
+    },{
+        "name": "leftUpperArm",
+        "min": -180,
+        "max": 180,
+        "val": 0
+    },{
+        "name": "leftLowerArm",
+        "min": -180,
+        "max": 180,
+        "val": 0
+    },{
+        "name": "rightUpperArm",
+        "min": -180,
+        "max": 180,
+        "val": 0
+    },{
+        "name": "rightLowerArm",
+        "min": -180,
+        "max": 180,
+        "val": 0
+    },{
+        "name": "leftUpperLeg",
+        "min": -180,
+        "max": 180,
+        "val": -180
+    },{
+        "name": "leftLowerLeg",
+        "min": -180,
+        "max": 180,
+        "val": 0
+    },{
+        "name": "rightUpperLeg",
+        "min": -180,
+        "max": 180,
+        "val": -180
+    },{
+        "name": "rightLowerLeg",
+        "min": -180,
+        "max": 180,
+        "val": 0
+    }];
 
 function addKeyFrame() {
     var nof = document.createElement("div");
@@ -34,8 +90,10 @@ function fixKeyFrameNumbering() {
     }
     if (kfs.length === 1) {
         kfs[0].parentNode.lastChild.disabled = true;
-    } else if (kfs[0].parentNode.lastChild.disabled) {
-        kfs[0].parentNode.lastChild.disabled = false;
+    } else { // noinspection Annotator
+        if (kfs[0].parentNode.lastChild.disabled) {
+                kfs[0].parentNode.lastChild.disabled = false;
+            }
     }
 }
 
@@ -63,11 +121,14 @@ function generateVariables() {
 
         slider.type = "range";
         slider.min = obj.min;
-        slider.max = obj.max;
-        slider.value = obj.val;
+        slider.max = obj.max.toString();
+        slider.value = obj.val.toString();
+        slider.name = obj.name;
         slider.oninput = updateSliderIndicator(slider, span);
 
         span.innerText = slider.value;
+
+        theta[slider.name] = slider.value;
 
         inject.appendChild(document.createTextNode(obj.name + ": " + obj.min));
         inject.appendChild(slider);
@@ -80,10 +141,17 @@ function generateVariables() {
 }
 
 function updateSliderIndicator(slider, span) {
-    return function() {
+    return function () {
         span.innerText = slider.value;
+        theta[slider.name] = slider.value;
+        initNodes(slider.name);
+        requestAnimationFrame(render);
     }
 }
 
+
+var c = document.getElementById("gl-canvas");
+c.width = c.parentElement.clientWidth;
+c.height = c.parentElement.clientHeight;
 addKeyFrame();
 generateVariables();
