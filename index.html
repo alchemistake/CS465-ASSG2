@@ -21,7 +21,7 @@ precision mediump float;
 
 void main()
 {
-    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    gl_FragColor = vec4(1.0, 0.5, 1., 1.0);
 
 }
     </script>
@@ -34,28 +34,26 @@ void main()
 <body>
 <table>
     <tr>
-        <td id="title">
+        <td id="title" colspan="2">
             <h1>Cat Animator 9000</h1>
         </td>
     </tr>
-    <tr id="canvas-wrapper">
-        <td>
+    <tr id="canvasWrapper">
+        <td colspan="2">
             <canvas id="gl-canvas" width="512" height="512">
             Oops ... your browser doesn't support the HTML5 canvas element
             </canvas>
         </td>
     </tr>
     <tr>
-        <td style="background: red;">
+        <td>
             <form action="#" onsubmit="return filterVariables()">
                 <input title="Search" id="filter" type="text" autocomplete="off">
                 <input type="submit" hidden>
             </form>
-            <ul id="variables" style="text-align: center">
+            <ul id="variables" style="height: 10vh;text-align: center">
             </ul>
         </td>
-    </tr>
-    <tr>
         <td>
             <div id="animator">
                 <button onclick="addKeyFrame()" id="addKeyframe">Add</button>

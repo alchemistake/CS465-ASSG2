@@ -46,10 +46,12 @@ input {
 }
 
 #filter {
-    width: 98%;
+    width: 48%;
     margin: 1%;
+    position: absolute;
+    bottom: 0;
 }
 
-#canvas-wrapper{
+#canvasWrapper{
     height: 50vh;
 }

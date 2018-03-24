@@ -1,66 +1,157 @@
 var animator = document.getElementById("animator");
 var variables = [
     {
-        "name": "torso",
+        "name": "cameraYaw",
         "min": -180,
         "max": 180,
         "val": 0
-    },{
-        "name": "head",
+    }, {
+        "name": "cameraPitch",
         "min": -180,
         "max": 180,
         "val": 0
-    },{
-        "name": "head1",
+    }, {
+        "name": "cameraRoll",
         "min": -180,
         "max": 180,
+        "val": 90
+    }, {
+        "name": "globalX",
+        "min": -100,
+        "max": 100,
         "val": 0
-    },{
-        "name": "head2",
-        "min": -180,
-        "max": 180,
+    }, {
+        "name": "globalY",
+        "min": -100,
+        "max": 100,
         "val": 0
-    },{
-        "name": "leftUpperArm",
-        "min": -180,
-        "max": 180,
+    }, {
+        "name": "globalZ",
+        "min": -100,
+        "max": 100,
         "val": 0
-    },{
-        "name": "leftLowerArm",
-        "min": -180,
-        "max": 180,
+    }, {
+        "name": "headYaw",
+        "min": -30,
+        "max": 30,
         "val": 0
-    },{
-        "name": "rightUpperArm",
-        "min": -180,
-        "max": 180,
+    }, {
+        "name": "headPitch",
+        "min": 0,
+        "max": 30,
         "val": 0
-    },{
-        "name": "rightLowerArm",
-        "min": -180,
-        "max": 180,
+    }, {
+        "name": "headRoll",
+        "min": -15,
+        "max": 15,
         "val": 0
-    },{
-        "name": "leftUpperLeg",
-        "min": -180,
-        "max": 180,
-        "val": -180
-    },{
-        "name": "leftLowerLeg",
-        "min": -180,
-        "max": 180,
+    }, {
+        "name": "tailStartYaw",
+        "min": -120,
+        "max": 120,
         "val": 0
-    },{
-        "name": "rightUpperLeg",
-        "min": -180,
-        "max": 180,
-        "val": -180
-    },{
-        "name": "rightLowerLeg",
-        "min": -180,
-        "max": 180,
+    }, {
+        "name": "tailStartPitch",
+        "min": -120,
+        "max": 120,
         "val": 0
-    }];
+    }, {
+        "name": "tailStartRoll",
+        "min": -120,
+        "max": 120,
+        "val": 0
+    }, {
+        "name": "tailMidYaw",
+        "min": -120,
+        "max": 120,
+        "val": 0
+    }, {
+        "name": "tailMidPitch",
+        "min": -120,
+        "max": 120,
+        "val": 0
+    }, {
+        "name": "tailMidRoll",
+        "min": -120,
+        "max": 120,
+        "val": 0
+    }, {
+        "name": "tailEndYaw",
+        "min": -120,
+        "max": 120,
+        "val": 0
+    }, {
+        "name": "tailEndPitch",
+        "min": -120,
+        "max": 120,
+        "val": 0
+    }, {
+        "name": "tailEndRoll",
+        "min": -120,
+        "max": 120,
+        "val": 0
+    }, {
+        "name": "upperFrontLeftLegAngle",
+        "min": 60,
+        "max": 120,
+        "val": 90
+    }, {
+        "name": "upperFrontRightLegAngle",
+        "min": 60,
+        "max": 120,
+        "val": 90
+    }, {
+        "name": "upperBackLeftLegAngle",
+        "min": 60,
+        "max": 120,
+        "val": 90
+    }, {
+        "name": "upperBackRightLegAngle",
+        "min": 60,
+        "max": 120,
+        "val": 90
+    }, {
+        "name": "lowerFrontLeftLegAngle",
+        "min": -30,
+        "max": 30,
+        "val": 0
+    }, {
+        "name": "lowerFrontRightLegAngle",
+        "min": -30,
+        "max": 30,
+        "val": 0
+    }, {
+        "name": "lowerBackLeftLegAngle",
+        "min": -30,
+        "max": 30,
+        "val": 0
+    }, {
+        "name": "lowerBackRightLegAngle",
+        "min": -30,
+        "max": 30,
+        "val": 0
+    }, {
+        "name": "pawFrontLeftLegAngle",
+        "min": -30,
+        "max": 30,
+        "val": 0
+    }, {
+        "name": "pawFrontRightLegAngle",
+        "min": -30,
+        "max": 30,
+        "val": 0
+    }, {
+        "name": "pawBackLeftLegAngle",
+        "min": -30,
+        "max": 30,
+        "val": 0
+    }, {
+        "name": "pawBackRightLegAngle",
+        "min": -30,
+        "max": 30,
+        "val": 0
+    }
+];
 
 function addKeyFrame() {
     var nof = document.createElement("div");
@@ -92,8 +183,8 @@ function fixKeyFrameNumbering() {
         kfs[0].parentNode.lastChild.disabled = true;
     } else { // noinspection Annotator
         if (kfs[0].parentNode.lastChild.disabled) {
-                kfs[0].parentNode.lastChild.disabled = false;
-            }
+            kfs[0].parentNode.lastChild.disabled = false;
+        }
     }
 }
 
@@ -128,7 +219,7 @@ function generateVariables() {
 
         span.innerText = slider.value;
 
-        theta[slider.name] = slider.value;
+        jointVariables[slider.name] = slider.value;
 
         inject.appendChild(document.createTextNode(obj.name + ": " + obj.min));
         inject.appendChild(slider);
@@ -137,14 +228,12 @@ function generateVariables() {
 
         wrapper.appendChild(inject);
     }
-
 }
 
 function updateSliderIndicator(slider, span) {
     return function () {
         span.innerText = slider.value;
-        theta[slider.name] = slider.value;
-        initNodes(slider.name);
+        jointVariables[slider.name] = slider.value;
         requestAnimationFrame(render);
     }
 }
