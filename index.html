@@ -14,6 +14,7 @@ void main()
 {
     gl_Position = projectionMatrix * modelViewMatrix * vPosition;
 }
+
     </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
@@ -24,6 +25,7 @@ void main()
     gl_FragColor = vec4(1.0, 0.5, 1., 1.0);
 
 }
+
     </script>
 
     <script type="text/javascript" src="Common/webgl-utils.js"></script>
@@ -33,16 +35,19 @@ void main()
 </head>
 <body>
 <table>
-    <tr>
-        <td id="title" colspan="2">
-            <h1>Cat Animator 9000</h1>
+    <tr id="canvasWrapper">
+        <td>
+            <canvas id="gl-canvas" width="512" height="512">
+                Oops ... your browser doesn't support the HTML5 canvas element
+            </canvas>
         </td>
     </tr>
-    <tr id="canvasWrapper">
-        <td colspan="2">
-            <canvas id="gl-canvas" width="512" height="512">
-            Oops ... your browser doesn't support the HTML5 canvas element
-            </canvas>
+
+    <tr>
+        <td>
+            <div id="animator">
+                <button onclick="addKeyFrame()" id="addKeyframe">Add</button>
+            </div>
         </td>
     </tr>
     <tr>
@@ -53,11 +58,6 @@ void main()
             </form>
             <ul id="variables" style="height: 10vh;text-align: center">
             </ul>
-        </td>
-        <td>
-            <div id="animator">
-                <button onclick="addKeyFrame()" id="addKeyframe">Add</button>
-            </div>
         </td>
     </tr>
 </table>

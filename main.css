@@ -37,6 +37,10 @@ input {
     width: fit-content;
 }
 
+.slider{
+    width: 75%;
+}
+
 #title {
     height: 10%;
 }
@@ -46,7 +50,7 @@ input {
 }
 
 #filter {
-    width: 48%;
+    width: 98%;
     margin: 1%;
     position: absolute;
     bottom: 0;

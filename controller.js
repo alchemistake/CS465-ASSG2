@@ -216,6 +216,7 @@ function generateVariables() {
         slider.value = obj.val.toString();
         slider.name = obj.name;
         slider.oninput = updateSliderIndicator(slider, span);
+        slider.className = "slider";
 
         span.innerText = slider.value;
 
