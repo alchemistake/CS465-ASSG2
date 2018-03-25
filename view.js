@@ -28,6 +28,17 @@ var vertices = [
     vec4(0.5, -0.5, -0.5, 1.0)
 ];
 
+var vertexColors = [
+    vec4( 0.0, 0.0, 0.0, 1.0 ),  // black
+    vec4( 1.0, 0.0, 0.0, 1.0 ),  // red
+    vec4( 1.0, 1.0, 0.0, 1.0 ),  // yellow
+    vec4( 0.0, 0.0, 1.0, 1.0 ),  // blue
+    vec4( 1.0, 0.0, 1.0, 1.0 ),  // magenta
+    vec4( 0.0, 0.8, 0.0, 1.0 ),  // green
+    vec4( 0.0, 1.0, 1.0, 1.0 ),  // cyan
+    vec4( 1.0, 1.0, 1.0, 1.0 )  // white
+];
+
 var torsoHeight = 5.0;
 var torsoWidth = 1.0;
 var upperLegHeight = 1.;
@@ -64,8 +75,8 @@ var figure = {
 };
 
 var stack = [];
-var vBuffer;
-var pointsArray = [];
+var vBuffer, cBuffer;
+var pointsArray = [], colorsArray = [];
 
 function createNode(transform, render, sibling, child) {
     return {
@@ -81,10 +92,11 @@ function initNodes(key) {
 
     switch (key) {
         case "torso":
-            m = translate(jointVariables["globalX"], jointVariables["globalY"], jointVariables["globalZ"]);
+            m = translate(jointVariables["globalX"], jointVariables["globalY"], jointVariables["globalZ"]-20);
             m = mult(m, rotate(jointVariables["cameraRoll"], 1, 0, 0));
             m = mult(m, rotate(jointVariables["cameraPitch"], 0, 1, 0));
             m = mult(m, rotate(jointVariables["cameraYaw"] - 90, 0, 0, 1));
+            m = mult(m, translate(-torsoWidth*0.5, -torsoHeight*0.5, -torsoWidth*0.5));
             figure[key] = createNode(m, renderGenerator(torsoHeight, torsoWidth), null, "head");
             break;
         case "head":
@@ -157,7 +169,7 @@ function initNodes(key) {
         case "tailStart":
             m = translate(0.0, 0.0, 0.0);
             m = mult(m, rotate(jointVariables[key + "Roll"], 1, 0, 0));
-            m = mult(m, rotate(jointVariables[key + "Pitch"], 0, 1, 0));
+            m = mult(m, rotate(jointVariables[key + "Pitch"] + 180, 0, 1, 0));
             m = mult(m, rotate(jointVariables[key + "Yaw"] + 180, 0, 0, 1));
             figure[key] = createNode(m, renderGenerator(tailHeight, tailWidth), null, "tailMid");
             break;
@@ -202,6 +214,11 @@ function quad(a, b, c, d) {
     pointsArray.push(vertices[b]);
     pointsArray.push(vertices[c]);
     pointsArray.push(vertices[d]);
+
+    colorsArray.push(vertexColors[a]);
+    colorsArray.push(vertexColors[a]);
+    colorsArray.push(vertexColors[a]);
+    colorsArray.push(vertexColors[a]);
 }
 
 function cube() {
@@ -224,6 +241,7 @@ window.onload = function init() {
 
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.clearColor(.5, .5, .5, 1.0);
+    gl.enable(gl.DEPTH_TEST);
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
 
@@ -231,7 +249,9 @@ window.onload = function init() {
 
     instanceMatrix = mat4();
 
-    projectionMatrix = ortho(-10.0, 10.0, -10.0 * (canvas.clientHeight / canvas.clientWidth), 10.0 * (canvas.clientHeight / canvas.clientWidth), -10.0, 10.0);
+    projectionMatrix = perspective(45., (1. * canvas.clientWidth) / canvas.clientHeight, 10, 100.);
+    //projectionMatrix = ortho(-10.0, 10.0, -10.0 * (canvas.clientHeight / canvas.clientWidth), 10.0 * (canvas.clientHeight / canvas.clientWidth), -10.0, 10.0);
+
     modelViewMatrix = mat4();
 
     gl.uniformMatrix4fv(gl.getUniformLocation(program, "modelViewMatrix"), false, flatten(modelViewMatrix));
@@ -240,6 +260,14 @@ window.onload = function init() {
     modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix");
 
     cube();
+
+    cBuffer = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, cBuffer);
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(colorsArray), gl.STATIC_DRAW );
+
+    var vColor = gl.getAttribLocation( program, "vColor" );
+    gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vColor);
 
     vBuffer = gl.createBuffer();
 
@@ -258,6 +286,6 @@ var render = function () {
         initNodes(key);
     }
 
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     traverse("torso");
 };

@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="main.css">
     <script id="vertex-shader" type="x-shader/x-vertex">
 attribute  vec4 vPosition;
+attribute  vec4 vColor;
+varying vec4 fColor;
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
@@ -13,19 +15,25 @@ uniform mat4 projectionMatrix;
 void main()
 {
     gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+    fColor = vColor;
 }
+
 
     </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
-precision mediump float;
+#ifdef GL_ES
+precision highp float;
+#endif
 
-void main()
+
+varying vec4 fColor;
+
+void
+main()
 {
-    gl_FragColor = vec4(1.0, 0.5, 1., 1.0);
-
+    gl_FragColor = fColor;
 }
-
     </script>
 
     <script type="text/javascript" src="Common/webgl-utils.js"></script>
