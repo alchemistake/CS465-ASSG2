@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>CS465 ASSG2</title>
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
     <script id="vertex-shader" type="x-shader/x-vertex">
 attribute  vec4 vPosition;
@@ -40,10 +41,12 @@ main()
     <script type="text/javascript" src="Common/initShaders.js"></script>
     <script type="text/javascript" src="Common/MV.js"></script>
     <script type="text/javascript" src="view.js"></script>
+    <script type="text/javascript" src="cat.js"></script>
+    <script type="text/javascript" src="animation.js"></script>
 </head>
 <body>
 <table>
-    <tr id="canvasWrapper">
+    <tr>
         <td>
             <canvas id="gl-canvas" width="512" height="512">
                 Oops ... your browser doesn't support the HTML5 canvas element
@@ -53,6 +56,9 @@ main()
 
     <tr>
         <td>
+            <button id="playStop">PLAY</button>
+            <button>Save Animation</button>
+            <br>
             <div id="animator">
                 <button onclick="addKeyFrame()" id="addKeyframe">Add</button>
             </div>
@@ -64,7 +70,7 @@ main()
                 <input title="Search" id="filter" type="text" autocomplete="off">
                 <input type="submit" hidden>
             </form>
-            <ul id="variables" style="height: 10vh;text-align: center">
+            <ul id="variables">
             </ul>
         </td>
     </tr>

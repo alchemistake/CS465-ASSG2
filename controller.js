@@ -1,157 +1,5 @@
 var animator = document.getElementById("animator");
-var variables = [
-    {
-        "name": "globalYaw",
-        "min": -180,
-        "max": 180,
-        "val": 0
-    }, {
-        "name": "globalPitch",
-        "min": -180,
-        "max": 180,
-        "val": 0
-    }, {
-        "name": "globalRoll",
-        "min": -180,
-        "max": 180,
-        "val": 90
-    }, {
-        "name": "globalX",
-        "min": -25,
-        "max": 25,
-        "val": 0
-    }, {
-        "name": "globalY",
-        "min": -10,
-        "max": 10,
-        "val": 0
-    }, {
-        "name": "globalZ",
-        "min": -50,
-        "max": 10,
-        "val": 0
-    }, {
-        "name": "headYaw",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "headPitch",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "headRoll",
-        "min": -15,
-        "max": 15,
-        "val": 0
-    }, {
-        "name": "tailStartYaw",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "tailStartPitch",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "tailStartRoll",
-        "min": -60,
-        "max": 60,
-        "val": 0
-    }, {
-        "name": "tailMidYaw",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "tailMidPitch",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "tailMidRoll",
-        "min": -60,
-        "max": 60,
-        "val": 0
-    }, {
-        "name": "tailEndYaw",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "tailEndPitch",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "tailEndRoll",
-        "min": -60,
-        "max": 60,
-        "val": 0
-    }, {
-        "name": "upperFrontLeftLegAngle",
-        "min": 60,
-        "max": 120,
-        "val": 90
-    }, {
-        "name": "upperFrontRightLegAngle",
-        "min": 60,
-        "max": 120,
-        "val": 90
-    }, {
-        "name": "upperBackLeftLegAngle",
-        "min": 60,
-        "max": 120,
-        "val": 90
-    }, {
-        "name": "upperBackRightLegAngle",
-        "min": 60,
-        "max": 120,
-        "val": 90
-    }, {
-        "name": "lowerFrontLeftLegAngle",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "lowerFrontRightLegAngle",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "lowerBackLeftLegAngle",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "lowerBackRightLegAngle",
-        "min": -30,
-        "max": 30,
-        "val": 0
-    }, {
-        "name": "pawFrontLeftLegAngle",
-        "min": -60,
-        "max": 60,
-        "val": 0
-    }, {
-        "name": "pawFrontRightLegAngle",
-        "min": -60,
-        "max": 60,
-        "val": 0
-    }, {
-        "name": "pawBackLeftLegAngle",
-        "min": -60,
-        "max": 60,
-        "val": 0
-    }, {
-        "name": "pawBackRightLegAngle",
-        "min": -60,
-        "max": 60,
-        "val": 0
-    }
-];
+var currentKeyframe = -1;
 
 function addKeyFrame() {
     var nof = document.createElement("div");
@@ -162,7 +10,10 @@ function addKeyFrame() {
     kf.className = "keyframe";
     kf.innerHTML = '<button class="loadKeyframe">KF</button><br><button onclick="deleteKeyframe(this)" class="deleteKeyframe">Delete</button>';
     animator.appendChild(kf);
-    fixKeyFrameNumbering();
+
+    keyframes.push({});
+
+    redoKeyframes();
 }
 
 function deleteKeyframe(keyframe) {
@@ -170,10 +21,10 @@ function deleteKeyframe(keyframe) {
     var noOfFrames = document.getElementsByClassName("noOfFrames");
     animator.removeChild(keyframe.parentElement);
     animator.removeChild(noOfFrames[index]);
-    fixKeyFrameNumbering();
+    redoKeyframes();
 }
 
-function fixKeyFrameNumbering() {
+function redoKeyframes() {
     var kfs = document.getElementsByClassName("loadKeyframe");
     for (var i = 0; i < kfs.length; i++) {
         kfs[i].innerText = "KF " + (i + 1);
@@ -231,6 +82,22 @@ function generateVariables() {
     }
 }
 
+function loadVariablesFromKeyframes(index){
+    for (const key of Object.keys(jointVariables)) {
+        var slider = document.getElementsByName(key)[0];
+        slider.parentElement.lastElementChild.innerHTML = keyframes[index][key];
+        slider.value = keyframes[index][key];
+        jointVariables[key] = keyframes[index][key];
+    }
+    requestAnimationFrame(render);
+}
+
+function saveVariablesToKeyframes(index){
+    for (const key of Object.keys(jointVariables)) {
+        keyframes[index][key] = jointVariables[key];
+    }
+}
+
 function updateSliderIndicator(slider, span) {
     return function () {
         span.innerText = slider.value;
@@ -239,9 +106,8 @@ function updateSliderIndicator(slider, span) {
     }
 }
 
-
+addKeyFrame();
+generateVariables();
 var c = document.getElementById("gl-canvas");
 c.width = c.parentElement.clientWidth;
 c.height = c.parentElement.clientHeight;
-addKeyFrame();
-generateVariables();

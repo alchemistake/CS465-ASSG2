@@ -37,7 +37,7 @@ input {
     width: fit-content;
 }
 
-.slider{
+.slider {
     width: 75%;
 }
 
@@ -46,6 +46,7 @@ input {
 }
 
 #animator {
+    height: 5vh;
     display: inline-flex;
 }
 
@@ -56,6 +57,7 @@ input {
     bottom: 0;
 }
 
-#canvasWrapper{
-    height: 50vh;
+#variables {
+    height: 10vh;
+    text-align: center;
 }
