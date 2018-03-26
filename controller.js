@@ -1,34 +1,34 @@
 var animator = document.getElementById("animator");
 var variables = [
     {
-        "name": "cameraYaw",
+        "name": "globalYaw",
         "min": -180,
         "max": 180,
         "val": 0
     }, {
-        "name": "cameraPitch",
+        "name": "globalPitch",
         "min": -180,
         "max": 180,
         "val": 0
     }, {
-        "name": "cameraRoll",
+        "name": "globalRoll",
         "min": -180,
         "max": 180,
         "val": 90
     }, {
         "name": "globalX",
-        "min": -100,
-        "max": 100,
+        "min": -25,
+        "max": 25,
         "val": 0
     }, {
         "name": "globalY",
-        "min": -100,
-        "max": 100,
+        "min": -10,
+        "max": 10,
         "val": 0
     }, {
         "name": "globalZ",
-        "min": -100,
-        "max": 100,
+        "min": -50,
+        "max": 10,
         "val": 0
     }, {
         "name": "headYaw",
@@ -37,7 +37,7 @@ var variables = [
         "val": 0
     }, {
         "name": "headPitch",
-        "min": 0,
+        "min": -30,
         "max": 30,
         "val": 0
     }, {
@@ -47,48 +47,48 @@ var variables = [
         "val": 0
     }, {
         "name": "tailStartYaw",
-        "min": -120,
-        "max": 120,
+        "min": -30,
+        "max": 30,
         "val": 0
     }, {
         "name": "tailStartPitch",
-        "min": -120,
-        "max": 120,
+        "min": -30,
+        "max": 30,
         "val": 0
     }, {
         "name": "tailStartRoll",
-        "min": -120,
-        "max": 120,
+        "min": -60,
+        "max": 60,
         "val": 0
     }, {
         "name": "tailMidYaw",
-        "min": -120,
-        "max": 120,
+        "min": -30,
+        "max": 30,
         "val": 0
     }, {
         "name": "tailMidPitch",
-        "min": -120,
-        "max": 120,
+        "min": -30,
+        "max": 30,
         "val": 0
     }, {
         "name": "tailMidRoll",
-        "min": -120,
-        "max": 120,
+        "min": -60,
+        "max": 60,
         "val": 0
     }, {
         "name": "tailEndYaw",
-        "min": -120,
-        "max": 120,
+        "min": -30,
+        "max": 30,
         "val": 0
     }, {
         "name": "tailEndPitch",
-        "min": -120,
-        "max": 120,
+        "min": -30,
+        "max": 30,
         "val": 0
     }, {
         "name": "tailEndRoll",
-        "min": -120,
-        "max": 120,
+        "min": -60,
+        "max": 60,
         "val": 0
     }, {
         "name": "upperFrontLeftLegAngle",
@@ -132,23 +132,23 @@ var variables = [
         "val": 0
     }, {
         "name": "pawFrontLeftLegAngle",
-        "min": -30,
-        "max": 30,
+        "min": -60,
+        "max": 60,
         "val": 0
     }, {
         "name": "pawFrontRightLegAngle",
-        "min": -30,
-        "max": 30,
+        "min": -60,
+        "max": 60,
         "val": 0
     }, {
         "name": "pawBackLeftLegAngle",
-        "min": -30,
-        "max": 30,
+        "min": -60,
+        "max": 60,
         "val": 0
     }, {
         "name": "pawBackRightLegAngle",
-        "min": -30,
-        "max": 30,
+        "min": -60,
+        "max": 60,
         "val": 0
     }
 ];

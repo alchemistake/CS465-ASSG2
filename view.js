@@ -93,9 +93,9 @@ function initNodes(key) {
     switch (key) {
         case "torso":
             m = translate(jointVariables["globalX"], jointVariables["globalY"], jointVariables["globalZ"]-20);
-            m = mult(m, rotate(jointVariables["cameraRoll"], 1, 0, 0));
-            m = mult(m, rotate(jointVariables["cameraPitch"], 0, 1, 0));
-            m = mult(m, rotate(jointVariables["cameraYaw"] - 90, 0, 0, 1));
+            m = mult(m, rotate(jointVariables["globalRoll"], 1, 0, 0));
+            m = mult(m, rotate(jointVariables["globalPitch"], 0, 1, 0));
+            m = mult(m, rotate(jointVariables["globalYaw"] - 90, 0, 0, 1));
             m = mult(m, translate(-torsoWidth*0.5, -torsoHeight*0.5, -torsoWidth*0.5));
             figure[key] = createNode(m, renderGenerator(torsoHeight, torsoWidth), null, "head");
             break;
@@ -167,24 +167,24 @@ function initNodes(key) {
             figure[key] = createNode(m, renderGenerator(pawLegHeight, pawLegWidth), null, null);
             break;
         case "tailStart":
-            m = translate(0.0, 0.0, 0.0);
-            m = mult(m, rotate(jointVariables[key + "Roll"], 1, 0, 0));
-            m = mult(m, rotate(jointVariables[key + "Pitch"] + 180, 0, 1, 0));
-            m = mult(m, rotate(jointVariables[key + "Yaw"] + 180, 0, 0, 1));
+            m = rotate(jointVariables[key + "Roll"], 1, 0, 0);
+            m = mult(m, rotate(jointVariables[key + "Pitch"], 0, 1, 0));
+            m = mult(m, rotate((jointVariables[key + "Yaw"]), 0, 0, 1));
+            m = mult(m, translate(0.0, -tailHeight * 1.1, 0.0));
             figure[key] = createNode(m, renderGenerator(tailHeight, tailWidth), null, "tailMid");
             break;
         case "tailMid":
-            m = translate(0.0, tailHeight * 1.1, 0.0);
-            m = mult(m, rotate(jointVariables[key + "Roll"], 1, 0, 0));
+            m = rotate(jointVariables[key + "Roll"], 1, 0, 0);
             m = mult(m, rotate(jointVariables[key + "Pitch"], 0, 1, 0));
-            m = mult(m, rotate(jointVariables[key + "Yaw"], 0, 0, 1));
+            m = mult(m, rotate((jointVariables[key + "Yaw"]), 0, 0, 1));
+            m = mult(m, translate(0.0, -tailHeight * 1.1, 0.0));
             figure[key] = createNode(m, renderGenerator(tailHeight, tailWidth), null, "tailEnd");
             break;
         case "tailEnd":
-            m = translate(0.0, tailHeight * 1.1, 0.0);
-            m = mult(m, rotate(jointVariables[key + "Roll"], 1, 0, 0));
+            m = rotate(jointVariables[key + "Roll"], 1, 0, 0);
             m = mult(m, rotate(jointVariables[key + "Pitch"], 0, 1, 0));
-            m = mult(m, rotate(jointVariables[key + "Yaw"], 0, 0, 1));
+            m = mult(m, rotate((jointVariables[key + "Yaw"]), 0, 0, 1));
+            m = mult(m, translate(0.0, -tailHeight * 1.1, 0.0));
             figure[key] = createNode(m, renderGenerator(tailHeight, tailWidth), null, null);
             break;
     }
