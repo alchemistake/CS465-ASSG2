@@ -57,7 +57,12 @@ main()
     <tr>
         <td>
             <button id="playStop" onclick="playStop()">PLAY</button>
-            <button>Save Animation</button>
+            <button onclick="saveAnimation()">Save Animation</button>
+            <button onclick="saveCurrentKeyframes()">Save Current Keyframe</button>
+            Load Animation:
+            <input type="file" id="fileAnimation" name="LoadAnimation"/>
+            Load Keyframe:
+            <input type="file" id="fileKeyframe" name="LoadKeyframe"/>
             <br>
             <div id="animator">
                 <button onclick="addKeyFrame()" id="addKeyframe">Add</button>

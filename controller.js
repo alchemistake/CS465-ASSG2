@@ -127,7 +127,7 @@ function activateKeyframe(index, deleting) {
     const keyframeButtons = document.getElementsByClassName("loadKeyframe");
     try {
         keyframeButtons[editorKeyframe].disabled = false;
-    } catch(err) {
+    } catch (err) {
     }
     keyframeButtons[index].disabled = true;
     editorKeyframe = index;
@@ -153,8 +153,73 @@ function playStop() {
     }
 }
 
+function saveAnimation() {
+    saveVariablesToKeyframes(editorKeyframe);
+
+    let link = document.createElement("a");
+    link.href = 'data:application/octet-stream,'
+        + encodeURIComponent(JSON.stringify(
+            {
+                "keyframes": keyframes,
+                "inBetweenFrameCount": inBetweenFrameCount
+            }
+        ));
+
+    link.download = "animation" + (new Date()).getTime() + ".json";
+    link.click();
+}
+
+function saveCurrentKeyframes() {
+    saveVariablesToKeyframes(editorKeyframe);
+
+    let link = document.createElement("a");
+    link.href = 'data:application/octet-stream,'
+        + encodeURIComponent(JSON.stringify(
+            keyframes[editorKeyframe]
+        ));
+
+    link.download = "keyframe" + (new Date()).getTime() + ".json";
+    link.click();
+}
+
+function loadAnimation(evt) {
+    const file = evt.target.files[0];
+    const fr = new FileReader();
+
+    fr.onload = function (e) {
+        const data = JSON.parse(e.target.result);
+        while (data["keyframes"].length < keyframes.length) {deleteKeyframe(0);}
+        while (data["keyframes"].length > keyframes.length) {addKeyFrame();}
+        keyframes = data["keyframes"];
+        inBetweenFrameCount = data["inBetweenFrameCount"];
+        loadVariablesFromKeyframes(editorKeyframe);
+
+        requestAnimationFrame(render)
+    };
+
+    fr.readAsText(file);
+}
+
+function loadKeyframe(evt) {
+    const file = evt.target.files[0];
+    const fr = new FileReader();
+
+    fr.onload = function (e) {
+        const data = JSON.parse(e.target.result);
+        keyframes[editorKeyframe] = data;
+        loadVariablesFromKeyframes(editorKeyframe);
+
+        requestAnimationFrame(render)
+    };
+
+    fr.readAsText(file);
+}
+
 addKeyFrame();
 generateVariables();
 const c = document.getElementById("gl-canvas");
 c.width = c.parentElement.clientWidth;
 c.height = c.parentElement.clientHeight;
+
+document.getElementById('fileAnimation').addEventListener('change', loadAnimation, false);
+document.getElementById('fileKeyframe').addEventListener('change', loadKeyframe, false);
