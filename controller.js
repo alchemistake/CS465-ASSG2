@@ -4,7 +4,7 @@ let editorKeyframe = 0;
 function addKeyFrame() {
     const nof = document.createElement("div");
     nof.className = "noOfFrames";
-    nof.innerHTML = '<input style="width: 40px" size="3" value="10" type="number">';
+    nof.innerHTML = '<input style="width:40px" size="3" value="10" type="number">';
     animator.appendChild(nof);
     const kf = document.createElement("div");
     kf.className = "keyframe";
@@ -13,7 +13,6 @@ function addKeyFrame() {
 
     keyframes.push({});
     activateKeyframe(keyframes.length - 1);
-
     redoKeyframes();
 }
 
@@ -22,7 +21,10 @@ function deleteKeyframe(keyframe) {
     const noOfFrames = document.getElementsByClassName("noOfFrames");
     animator.removeChild(keyframe.parentElement);
     animator.removeChild(noOfFrames[index]);
+    keyframes.splice(index, 1);
     redoKeyframes();
+    if (index === editorKeyframe)
+        activateKeyframe(index % keyframes.length, true);
 }
 
 function redoKeyframes() {
@@ -69,6 +71,7 @@ function generateVariables() {
         slider.max = obj.max.toString();
         slider.value = obj.val.toString();
         slider.name = obj.name;
+        slider.step = "0.1";
         slider.oninput = updateSliderIndicator(slider, span);
         slider.className = "slider";
 
@@ -98,8 +101,9 @@ function loadVariablesFromKeyframes(index) {
 }
 
 function saveVariablesToKeyframes(index) {
-    for (const key of Object.keys(jointVariables)) {
-        keyframes[index][key] = jointVariables[key];
+    const sliders = document.getElementsByClassName("slider");
+    for (let i = 0; i < sliders.length; i++) {
+        keyframes[index][sliders[i].name] = sliders[i].value;
     }
 }
 
@@ -111,14 +115,20 @@ function updateSliderIndicator(slider, span) {
     }
 }
 
-function activateKeyframe(index) {
+function activateKeyframe(index, deleting) {
     if (typeof index !== "number")
         index = index.getAttribute("data-index");
-    saveVariablesToKeyframes(editorKeyframe);
+    if (playing)
+        playStop();
+    if (!playing && !deleting)
+        saveVariablesToKeyframes(editorKeyframe);
     loadVariablesFromKeyframes(index);
 
     const keyframeButtons = document.getElementsByClassName("loadKeyframe");
-    keyframeButtons[editorKeyframe].disabled = false;
+    try {
+        keyframeButtons[editorKeyframe].disabled = false;
+    } catch(err) {
+    }
     keyframeButtons[index].disabled = true;
     editorKeyframe = index;
 }
@@ -129,6 +139,17 @@ function updateInBetweenFrameCount() {
     inBetweenFrameCount = [];
     for (let i = 0; i < nof.length; i++) {
         inBetweenFrameCount.push(parseInt(nof[i].firstChild.value));
+    }
+}
+
+function playStop() {
+    playing = !playing;
+    if (playing) {
+        saveVariablesToKeyframes(editorKeyframe);
+        updateInBetweenFrameCount();
+        currentKeyframe = 0;
+        frameCount = 0;
+        animate();
     }
 }
 

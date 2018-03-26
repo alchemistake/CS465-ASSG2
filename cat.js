@@ -179,7 +179,7 @@ function initNodes(key) {
 
     switch (key) {
         case "torso":
-            m = translate(jointVariables["globalX"], jointVariables["globalY"], jointVariables["globalZ"]-20);
+            m = translate(jointVariables["globalX"], jointVariables["globalY"], jointVariables["globalZ"]-15);
             m = mult(m, rotate(jointVariables["globalRoll"], 1, 0, 0));
             m = mult(m, rotate(jointVariables["globalPitch"], 0, 1, 0));
             m = mult(m, rotate(jointVariables["globalYaw"] - 90, 0, 0, 1));
