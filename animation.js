@@ -1,18 +1,14 @@
-var keyframes = [];
-var inBetweenFrameCount = [];
-var startOfKeyframes = [];
-var frameCount = 0;
+let keyframes = [];
+let inBetweenFrameCount = [];
+let currentKeyframe = 0;
+let frameCount = 0;
 
-function interpolate(startFrame) {
-    var endFrame = (startFrame + 1) % keyframes.length;
-    var start = keyframes[startFrame], end = keyframes[endFrame];
-    var relativeFrameCount = frameCount - startOfKeyframes; // TODO fix here
-    var total = 1. * inBetweenFrameCount[startFrame];
-    var percentage = relativeFrameCount / total;
+function interpolate() {
+    const endFrame = (currentKeyframe + 1) % keyframes.length;
+    const start = keyframes[currentKeyframe], end = keyframes[endFrame];
+    const percentage = frameCount / inBetweenFrameCount[endFrame];
 
-    for (var key in start) {
-        if (start.hasOwnProperty(key)) {
-            jointVariables[key] = percentage * start[key] + (1 - percentage) * end[key]
-        }
+    for (const key of start) {
+        jointVariables[key] = percentage * start[key] + (1 - percentage) * end[key]
     }
 }

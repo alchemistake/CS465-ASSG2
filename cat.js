@@ -1,4 +1,4 @@
-var variables = [
+const variables = [
     {
         "name": "globalYaw",
         "min": -180,
@@ -152,18 +152,18 @@ var variables = [
     }
 ];
 
-var torsoHeight = 5.0;
-var torsoWidth = 1.0;
-var upperLegHeight = 1.;
-var upperLegWidth = 0.5;
-var lowerLegHeight = 1.0;
-var lowerLegWidth = 0.5;
-var pawLegHeight = 0.3;
-var pawLegWidth = 0.75;
-var headHeight = 1.5;
-var headWidth = 1.0;
-var tailHeight = 1.0;
-var tailWidth = 0.5;
+let torsoHeight = 5.0;
+let torsoWidth = 1.0;
+const upperLegHeight = 1.;
+const upperLegWidth = 0.5;
+const lowerLegHeight = 1.0;
+const lowerLegWidth = 0.5;
+const pawLegHeight = 0.3;
+const pawLegWidth = 0.75;
+const headHeight = 1.5;
+const headWidth = 1.0;
+let tailHeight = 1.0;
+const tailWidth = 0.5;
 
 function createNode(transform, render, sibling, child) {
     return {
@@ -175,7 +175,7 @@ function createNode(transform, render, sibling, child) {
 }
 
 function initNodes(key) {
-    var m = mat4();
+    let m = mat4();
 
     switch (key) {
         case "torso":
@@ -204,11 +204,13 @@ function initNodes(key) {
             figure[key] = createNode(m, renderGenerator(upperLegHeight, upperLegWidth), "upperBackLeftLeg", "lowerFrontRightLeg");
             break;
         case "upperBackLeftLeg":
+            // noinspection JSSuspiciousNameCombination
             m = translate(-torsoWidth, upperLegWidth, 0.0);
             m = mult(m, rotate(jointVariables[key + "Angle"], 1, 0, 0));
             figure[key] = createNode(m, renderGenerator(upperLegHeight, upperLegWidth), "upperBackRightLeg", "lowerBackLeftLeg");
             break;
         case "upperBackRightLeg":
+            // noinspection JSSuspiciousNameCombination
             m = translate(torsoWidth, upperLegWidth, 0.0);
             m = mult(m, rotate(jointVariables[key + "Angle"], 1, 0, 0));
             figure[key] = createNode(m, renderGenerator(upperLegHeight, upperLegWidth), "tailStart", "lowerBackRightLeg");

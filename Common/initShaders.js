@@ -3,11 +3,11 @@
 //
 
 function initShaders(gl, vertexShaderId, fragmentShaderId) {
-    var vertShdr;
-    var fragShdr;
-    var msg;
+    let vertShdr;
+    let fragShdr;
+    let msg;
 
-    var vertElem = document.getElementById(vertexShaderId);
+    let vertElem = document.getElementById(vertexShaderId);
     if (!vertElem) {
         alert("Unable to load vertex shader " + vertexShaderId);
         return -1;
@@ -24,7 +24,7 @@ function initShaders(gl, vertexShaderId, fragmentShaderId) {
         }
     }
 
-    var fragElem = document.getElementById(fragmentShaderId);
+    let fragElem = document.getElementById(fragmentShaderId);
     if (!fragElem) {
         alert("Unable to load Fragment shader " + fragmentShaderId);
         return -1;
@@ -41,7 +41,7 @@ function initShaders(gl, vertexShaderId, fragmentShaderId) {
         }
     }
 
-    var program = gl.createProgram();
+    const program = gl.createProgram();
     gl.attachShader(program, vertShdr);
     gl.attachShader(program, fragShdr);
     gl.linkProgram(program);

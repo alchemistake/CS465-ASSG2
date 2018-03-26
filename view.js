@@ -1,22 +1,22 @@
 function scale4(a, b, c) {
-    var result = mat4();
+    const result = mat4();
     result[0][0] = a;
     result[1][1] = b;
     result[2][2] = c;
     return result;
 }
 
-var canvas;
-var gl;
-var program;
+let canvas;
+let gl;
+let program;
 
-var projectionMatrix;
-var modelViewMatrix;
+let projectionMatrix;
+let modelViewMatrix;
 
-var instanceMatrix;
-var modelViewMatrixLoc;
+let instanceMatrix;
+let modelViewMatrixLoc;
 
-var vertices = [
+const vertices = [
     vec4(-0.5, -0.5, 0.5, 1.0),
     vec4(-0.5, 0.5, 0.5, 1.0),
     vec4(0.5, 0.5, 0.5, 1.0),
@@ -26,19 +26,19 @@ var vertices = [
     vec4(0.5, 0.5, -0.5, 1.0),
     vec4(0.5, -0.5, -0.5, 1.0)
 ];
-var vertexColors = [
-    vec4( 0.0, 0.0, 0.0, 1.0 ),  // black
-    vec4( 1.0, 0.0, 0.0, 1.0 ),  // red
-    vec4( 1.0, 1.0, 0.0, 1.0 ),  // yellow
-    vec4( 0.0, 0.0, 1.0, 1.0 ),  // blue
-    vec4( 1.0, 0.0, 1.0, 1.0 ),  // magenta
-    vec4( 0.0, 0.8, 0.0, 1.0 ),  // green
-    vec4( 0.0, 1.0, 1.0, 1.0 ),  // cyan
-    vec4( 1.0, 1.0, 1.0, 1.0 )  // white
+const vertexColors = [
+    vec4(0.0, 0.0, 0.0, 1.0),  // black
+    vec4(1.0, 0.0, 0.0, 1.0),  // red
+    vec4(1.0, 1.0, 0.0, 1.0),  // yellow
+    vec4(0.0, 0.0, 1.0, 1.0),  // blue
+    vec4(1.0, 0.0, 1.0, 1.0),  // magenta
+    vec4(0.0, 0.8, 0.0, 1.0),  // green
+    vec4(0.0, 1.0, 1.0, 1.0),  // cyan
+    vec4(1.0, 1.0, 1.0, 1.0)  // white
 ];
 
-var jointVariables = {};
-var figure = {
+const jointVariables = {};
+const figure = {
     "global": null,
     "torso": null,
     "head": null,
@@ -59,9 +59,9 @@ var figure = {
     "pawBackRightLeg": null
 };
 
-var stack = [];
-var vBuffer, cBuffer;
-var pointsArray = [], colorsArray = [];
+const stack = [];
+let vBuffer, cBuffer;
+const pointsArray = [], colorsArray = [];
 
 function traverse(key) {
     if (key == null) return;
@@ -78,7 +78,7 @@ function renderGenerator(height, width) {
         instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * height, 0.0));
         instanceMatrix = mult(instanceMatrix, scale4(width, height, width));
         gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
-        for (var i = 0; i < 6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4 * i, 4);
+        for (let i = 0; i < 6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4 * i, 4);
     }
 }
 
@@ -138,7 +138,7 @@ window.onload = function init() {
     gl.bindBuffer( gl.ARRAY_BUFFER, cBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(colorsArray), gl.STATIC_DRAW );
 
-    var vColor = gl.getAttribLocation( program, "vColor" );
+    const vColor = gl.getAttribLocation(program, "vColor");
     gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vColor);
 
@@ -147,18 +147,18 @@ window.onload = function init() {
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
 
-    var vPosition = gl.getAttribLocation(program, "vPosition");
+    const vPosition = gl.getAttribLocation(program, "vPosition");
     gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(vPosition);
 
     render();
 };
 
-var render = function () {
-    for (var key in figure) {
+function render() {
+    for (let key in figure) {
         initNodes(key);
     }
 
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     traverse("torso");
-};
+}

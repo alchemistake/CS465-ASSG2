@@ -19,7 +19,9 @@ time, mark, audio, video {
     margin: 0;
     padding: 0;
     border: 0;
+    /*noinspection CssOverwrittenProperties*/
     font-size: 100%;
+    /*noinspection CssOverwrittenProperties*/
     font: inherit;
     vertical-align: baseline;
 }
@@ -39,7 +41,9 @@ blockquote, q {
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
+    /*noinspection CssOverwrittenProperties*/
     content: '';
+    /*noinspection CssOverwrittenProperties*/
     content: none;
 }
 table {

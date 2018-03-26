@@ -37,12 +37,9 @@ input {
     width: fit-content;
 }
 
+/*noinspection CssUnusedSymbol*/
 .slider {
     width: 75%;
-}
-
-#title {
-    height: 10%;
 }
 
 #animator {

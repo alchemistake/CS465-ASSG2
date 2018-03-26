@@ -1,32 +1,33 @@
-var animator = document.getElementById("animator");
-var currentKeyframe = -1;
+const animator = document.getElementById("animator");
+let editorKeyframe = 0;
 
 function addKeyFrame() {
-    var nof = document.createElement("div");
+    const nof = document.createElement("div");
     nof.className = "noOfFrames";
     nof.innerHTML = '<input style="width: 40px" size="3" value="10" type="number">';
     animator.appendChild(nof);
-    var kf = document.createElement("div");
+    const kf = document.createElement("div");
     kf.className = "keyframe";
-    kf.innerHTML = '<button class="loadKeyframe">KF</button><br><button onclick="deleteKeyframe(this)" class="deleteKeyframe">Delete</button>';
+    kf.innerHTML = '<button onclick="activateKeyframe(this)" class="loadKeyframe">KF</button><br><button onclick="deleteKeyframe(this)" class="deleteKeyframe">Delete</button>';
     animator.appendChild(kf);
 
     keyframes.push({});
+    activateKeyframe(keyframes.length - 1);
 
     redoKeyframes();
 }
 
 function deleteKeyframe(keyframe) {
-    var index = parseInt(keyframe.parentElement.firstElementChild.getAttribute("data-index"));
-    var noOfFrames = document.getElementsByClassName("noOfFrames");
+    const index = parseInt(keyframe.parentElement.firstElementChild.getAttribute("data-index"));
+    const noOfFrames = document.getElementsByClassName("noOfFrames");
     animator.removeChild(keyframe.parentElement);
     animator.removeChild(noOfFrames[index]);
     redoKeyframes();
 }
 
 function redoKeyframes() {
-    var kfs = document.getElementsByClassName("loadKeyframe");
-    for (var i = 0; i < kfs.length; i++) {
+    const kfs = document.getElementsByClassName("loadKeyframe");
+    for (let i = 0; i < kfs.length; i++) {
         kfs[i].innerText = "KF " + (i + 1);
         kfs[i].setAttribute("data-index", i.toString());
     }
@@ -37,14 +38,16 @@ function redoKeyframes() {
             kfs[0].parentNode.lastChild.disabled = false;
         }
     }
+
+    updateInBetweenFrameCount();
 }
 
 function filterVariables() {
-    var box = document.getElementById("filter");
-    var value = box.value;
+    const box = document.getElementById("filter");
+    const value = box.value;
     box.value = "";
-    var variables = document.getElementsByClassName("variable");
-    for (var i = 0; i < variables.length; i++) {
+    const variables = document.getElementsByClassName("variable");
+    for (let i = 0; i < variables.length; i++) {
         variables[i].hidden = variables[i].innerText.toLowerCase().indexOf(value.toLowerCase()) < 0;
     }
 
@@ -52,14 +55,14 @@ function filterVariables() {
 }
 
 function generateVariables() {
-    var wrapper = document.getElementById("variables");
-    for (var i = 0; i < variables.length; i++) {
-        var obj = variables[i];
+    const wrapper = document.getElementById("variables");
+    for (let i = 0; i < variables.length; i++) {
+        const obj = variables[i];
 
-        var inject = document.createElement("li");
+        const inject = document.createElement("li");
         inject.className = "variable";
-        var slider = document.createElement("input");
-        var span = document.createElement("span");
+        const slider = document.createElement("input");
+        const span = document.createElement("span");
 
         slider.type = "range";
         slider.min = obj.min;
@@ -82,17 +85,19 @@ function generateVariables() {
     }
 }
 
-function loadVariablesFromKeyframes(index){
+function loadVariablesFromKeyframes(index) {
     for (const key of Object.keys(jointVariables)) {
-        var slider = document.getElementsByName(key)[0];
-        slider.parentElement.lastElementChild.innerHTML = keyframes[index][key];
-        slider.value = keyframes[index][key];
-        jointVariables[key] = keyframes[index][key];
+        if (key in keyframes[index]) {
+            const slider = document.getElementsByName(key)[0];
+            slider.parentElement.lastElementChild.innerHTML = keyframes[index][key];
+            slider.value = keyframes[index][key];
+            jointVariables[key] = keyframes[index][key];
+        }
     }
     requestAnimationFrame(render);
 }
 
-function saveVariablesToKeyframes(index){
+function saveVariablesToKeyframes(index) {
     for (const key of Object.keys(jointVariables)) {
         keyframes[index][key] = jointVariables[key];
     }
@@ -106,8 +111,29 @@ function updateSliderIndicator(slider, span) {
     }
 }
 
+function activateKeyframe(index) {
+    if (typeof index !== "number")
+        index = index.getAttribute("data-index");
+    saveVariablesToKeyframes(editorKeyframe);
+    loadVariablesFromKeyframes(index);
+
+    const keyframeButtons = document.getElementsByClassName("loadKeyframe");
+    keyframeButtons[editorKeyframe].disabled = false;
+    keyframeButtons[index].disabled = true;
+    editorKeyframe = index;
+}
+
+function updateInBetweenFrameCount() {
+    const nof = document.getElementsByClassName("noOfFrames");
+
+    inBetweenFrameCount = [];
+    for (let i = 0; i < nof.length; i++) {
+        inBetweenFrameCount.push(parseInt(nof[i].firstChild.value));
+    }
+}
+
 addKeyFrame();
 generateVariables();
-var c = document.getElementById("gl-canvas");
+const c = document.getElementById("gl-canvas");
 c.width = c.parentElement.clientWidth;
 c.height = c.parentElement.clientHeight;

@@ -24,7 +24,7 @@ function radians(degrees) {
 //
 
 function vec2() {
-    var result = _argumentsToArray(arguments);
+    const result = _argumentsToArray(arguments);
 
     // noinspection FallThroughInSwitchStatementJS
     switch (result.length) {
@@ -38,7 +38,7 @@ function vec2() {
 }
 
 function vec3() {
-    var result = _argumentsToArray(arguments);
+    const result = _argumentsToArray(arguments);
 
     // noinspection FallThroughInSwitchStatementJS
     // noinspection FallThroughInSwitchStatementJS
@@ -55,7 +55,7 @@ function vec3() {
 }
 
 function vec4() {
-    var result = _argumentsToArray(arguments);
+    const result = _argumentsToArray(arguments);
 
     // noinspection FallThroughInSwitchStatementJS
     // noinspection FallThroughInSwitchStatementJS
@@ -80,9 +80,9 @@ function vec4() {
 //
 
 function mat2() {
-    var v = _argumentsToArray(arguments);
+    const v = _argumentsToArray(arguments);
 
-    var m = [];
+    let m = [];
     // noinspection FallThroughInSwitchStatementJS
     switch (v.length) {
         case 0:
@@ -109,9 +109,9 @@ function mat2() {
 //----------------------------------------------------------------------------
 
 function mat3() {
-    var v = _argumentsToArray(arguments);
+    const v = _argumentsToArray(arguments);
 
-    var m = [];
+    let m = [];
     // noinspection FallThroughInSwitchStatementJS
     switch (v.length) {
         case 0:
@@ -141,9 +141,9 @@ function mat3() {
 //----------------------------------------------------------------------------
 
 function mat4() {
-    var v = _argumentsToArray(arguments);
+    const v = _argumentsToArray(arguments);
 
-    var m = [];
+    let m = [];
     // noinspection FallThroughInSwitchStatementJS
     switch (v.length) {
         case 0:
@@ -184,11 +184,11 @@ function equal(u, v) {
     }
 
     if (u.matrix && v.matrix) {
-        for (var i = 0; i < u.length; ++i) {
+        for (let i = 0; i < u.length; ++i) {
             if (u[i].length !== v[i].length) {
                 return false;
             }
-            for (var j = 0; j < u[i].length; ++j) {
+            for (let j = 0; j < u[i].length; ++j) {
                 if (u[i][j] !== v[i][j]) {
                     return false;
                 }
@@ -199,7 +199,7 @@ function equal(u, v) {
         return false;
     }
     else {
-        for (i = 0; i < u.length; ++i) {
+        for (let i = 0; i < u.length; ++i) {
             if (u[i] !== v[i]) {
                 return false;
             }
@@ -213,19 +213,19 @@ function equal(u, v) {
 
 // noinspection JSUnusedGlobalSymbols
 function add(u, v) {
-    var result = [];
+    const result = [];
 
     if (u.matrix && v.matrix) {
         if (u.length !== v.length) {
             throw "add(): trying to add matrices of different dimensions";
         }
 
-        for (var i = 0; i < u.length; ++i) {
+        for (let i = 0; i < u.length; ++i) {
             if (u[i].length !== v[i].length) {
                 throw "add(): trying to add matrices of different dimensions";
             }
             result.push([]);
-            for (var j = 0; j < u[i].length; ++j) {
+            for (let j = 0; j < u[i].length; ++j) {
                 result[i].push(u[i][j] + v[i][j]);
             }
         }
@@ -242,7 +242,7 @@ function add(u, v) {
             throw "add(): vectors are not the same dimension";
         }
 
-        for (i = 0; i < u.length; ++i) {
+        for (let i = 0; i < u.length; ++i) {
             result.push(u[i] + v[i]);
         }
 
@@ -253,7 +253,7 @@ function add(u, v) {
 //----------------------------------------------------------------------------
 
 function subtract(u, v) {
-    var result = [];
+    const result = [];
 
     if (u.matrix && v.matrix) {
         if (u.length !== v.length) {
@@ -261,13 +261,13 @@ function subtract(u, v) {
             " of different dimensions";
         }
 
-        for (var i = 0; i < u.length; ++i) {
+        for (let i = 0; i < u.length; ++i) {
             if (u[i].length !== v[i].length) {
                 throw "subtract(): trying to subtact matrices" +
                 " of different dimensions";
             }
             result.push([]);
-            for (var j = 0; j < u[i].length; ++j) {
+            for (let j = 0; j < u[i].length; ++j) {
                 result[i].push(u[i][j] - v[i][j]);
             }
         }
@@ -284,7 +284,7 @@ function subtract(u, v) {
             throw "subtract(): vectors are not the same length";
         }
 
-        for (i = 0; i < u.length; ++i) {
+        for (let i = 0; i < u.length; ++i) {
             result.push(u[i] - v[i]);
         }
 
@@ -295,25 +295,25 @@ function subtract(u, v) {
 //----------------------------------------------------------------------------
 
 function mult(u, v) {
-    var result = [];
+    const result = [];
 
     if (u.matrix && v.matrix) {
         if (u.length !== v.length) {
             throw "mult(): trying to add matrices of different dimensions";
         }
 
-        for (var i = 0; i < u.length; ++i) {
+        for (let i = 0; i < u.length; ++i) {
             if (u[i].length !== v[i].length) {
                 throw "mult(): trying to add matrices of different dimensions";
             }
         }
 
-        for (i = 0; i < u.length; ++i) {
+        for (let i = 0; i < u.length; ++i) {
             result.push([]);
 
-            for (var j = 0; j < v.length; ++j) {
-                var sum = 0.0;
-                for (var k = 0; k < u.length; ++k) {
+            for (let j = 0; j < v.length; ++j) {
+                let sum = 0.0;
+                for (let k = 0; k < u.length; ++k) {
                     sum += u[i][k] * v[k][j];
                 }
                 result[i].push(sum);
@@ -329,7 +329,7 @@ function mult(u, v) {
             throw "mult(): vectors are not the same dimension";
         }
 
-        for (i = 0; i < u.length; ++i) {
+        for (let i = 0; i < u.length; ++i) {
             result.push(u[i] * v[i]);
         }
 
@@ -349,7 +349,7 @@ function translate(x, y, z) {
         x = x[0];
     }
 
-    var result = mat4();
+    const result = mat4();
     result[0][3] = x;
     result[1][3] = y;
     result[2][3] = z;
@@ -364,15 +364,15 @@ function rotate(angle, axis) {
         axis = [arguments[1], arguments[2], arguments[3]];
     }
 
-    var v = normalize(axis);
+    const v = normalize(axis);
 
-    var x = v[0];
-    var y = v[1];
-    var z = v[2];
+    const x = v[0];
+    const y = v[1];
+    const z = v[2];
 
-    var c = Math.cos(radians(angle));
-    var omc = 1.0 - c;
-    var s = Math.sin(radians(angle));
+    const c = Math.cos(radians(angle));
+    const omc = 1.0 - c;
+    const s = Math.sin(radians(angle));
 
     return mat4(
         vec4(x * x * omc + c, x * y * omc - z * s, x * z * omc + y * s, 0.0),
@@ -392,7 +392,7 @@ function scale3(x, y, z) {
         x = x[0];
     }
 
-    var result = mat4();
+    const result = mat4();
     result[0][0] = x;
     result[1][1] = y;
     result[2][2] = z;
@@ -424,9 +424,9 @@ function lookAt(eye, at, up) {
         return mat4();
     }
 
-    var v = normalize(subtract(at, eye));  // view direction vector
-    var n = normalize(cross(v, up));       // perpendicular vector
-    var u = normalize(cross(n, v));        // "new" up vector
+    let v = normalize(subtract(at, eye));  // view direction vector
+    const n = normalize(cross(v, up));       // perpendicular vector
+    const u = normalize(cross(n, v));        // "new" up vector
 
     v = negate(v);
 
@@ -443,6 +443,7 @@ function lookAt(eye, at, up) {
 //  Projection Matrix Generators
 //
 
+// noinspection JSUnusedGlobalSymbols
 function ortho(left, right, bottom, top, near, far) {
     if (left === right) {
         throw "ortho(): left and right are equal";
@@ -454,11 +455,11 @@ function ortho(left, right, bottom, top, near, far) {
         throw "ortho(): near and far are equal";
     }
 
-    var w = right - left;
-    var h = top - bottom;
-    var d = far - near;
+    const w = right - left;
+    const h = top - bottom;
+    const d = far - near;
 
-    var result = mat4();
+    const result = mat4();
     result[0][0] = 2.0 / w;
     result[1][1] = 2.0 / h;
     result[2][2] = -2.0 / d;
@@ -473,10 +474,10 @@ function ortho(left, right, bottom, top, near, far) {
 
 // noinspection JSUnusedGlobalSymbols
 function perspective(fovy, aspect, near, far) {
-    var f = 1.0 / Math.tan(radians(fovy) / 2);
-    var d = far - near;
+    const f = 1.0 / Math.tan(radians(fovy) / 2);
+    const d = far - near;
 
-    var result = mat4();
+    const result = mat4();
     result[0][0] = f / aspect;
     result[1][1] = f;
     result[2][2] = -(near + far) / d;
@@ -497,10 +498,10 @@ function transpose(m) {
         return "transpose(): trying to transpose a non-matrix";
     }
 
-    var result = [];
-    for (var i = 0; i < m.length; ++i) {
+    const result = [];
+    for (let i = 0; i < m.length; ++i) {
         result.push([]);
-        for (var j = 0; j < m[i].length; ++j) {
+        for (let j = 0; j < m[i].length; ++j) {
             result[i].push(m[j][i]);
         }
     }
@@ -520,8 +521,8 @@ function dot(u, v) {
         throw "dot(): vectors are not the same dimension";
     }
 
-    var sum = 0.0;
-    for (var i = 0; i < u.length; ++i) {
+    let sum = 0.0;
+    for (let i = 0; i < u.length; ++i) {
         sum += u[i] * v[i];
     }
 
@@ -531,8 +532,8 @@ function dot(u, v) {
 //----------------------------------------------------------------------------
 
 function negate(u) {
-    var result = [];
-    for (var i = 0; i < u.length; ++i) {
+    const result = [];
+    for (let i = 0; i < u.length; ++i) {
         result.push(-u[i]);
     }
 
@@ -566,17 +567,18 @@ function length(u) {
 //----------------------------------------------------------------------------
 
 function normalize(u, excludeLastComponent) {
+    let last;
     if (excludeLastComponent) {
-        var last = u.pop();
+        last = u.pop();
     }
 
-    var len = length(u);
+    const len = length(u);
 
     if (!isFinite(len)) {
         throw "normalize: vector " + u + " has zero length";
     }
 
-    for (var i = 0; i < u.length; ++i) {
+    for (let i = 0; i < u.length; ++i) {
         u[i] /= len;
     }
 
@@ -599,8 +601,8 @@ function mix(u, v, s) {
         throw "vector dimension mismatch";
     }
 
-    var result = [];
-    for (var i = 0; i < u.length; ++i) {
+    const result = [];
+    for (let i = 0; i < u.length; ++i) {
         result.push((1.0 - s) * u[i] + s * v[i]);
     }
 
@@ -618,8 +620,8 @@ function scale2(s, u) {
         throw "scale: second parameter " + u + " is not a vector";
     }
 
-    var result = [];
-    for (var i = 0; i < u.length; ++i) {
+    const result = [];
+    for (let i = 0; i < u.length; ++i) {
         result.push(s * u[i]);
     }
 
@@ -636,26 +638,26 @@ function flatten(v) {
         v = transpose(v);
     }
 
-    var n = v.length;
-    var elemsAreArrays = false;
+    let n = v.length;
+    let elemsAreArrays = false;
 
     if (Array.isArray(v[0])) {
         elemsAreArrays = true;
         n *= v[0].length;
     }
 
-    var floats = new Float32Array(n);
+    const floats = new Float32Array(n);
 
     if (elemsAreArrays) {
-        var idx = 0;
-        for (var i = 0; i < v.length; ++i) {
-            for (var j = 0; j < v[i].length; ++j) {
+        let idx = 0;
+        for (let i = 0; i < v.length; ++i) {
+            for (let j = 0; j < v[i].length; ++j) {
                 floats[idx++] = v[i][j];
             }
         }
     }
     else {
-        for (i = 0; i < v.length; ++i) {
+        for (let i = 0; i < v.length; ++i) {
             floats[i] = v[i];
         }
     }
@@ -666,7 +668,7 @@ function flatten(v) {
 //----------------------------------------------------------------------------
 
 // noinspection JSUnusedGlobalSymbols
-var sizeof = {
+const sizeof = {
     'vec2': new Float32Array(flatten(vec2())).byteLength,
     'vec3': new Float32Array(flatten(vec3())).byteLength,
     'vec4': new Float32Array(flatten(vec4())).byteLength,

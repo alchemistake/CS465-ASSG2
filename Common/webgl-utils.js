@@ -65,7 +65,7 @@ WebGLUtils = function () {
      *        canvas.
      * @return {string} The html.
      */
-    var makeFailHTML = function (msg) {
+    const makeFailHTML = function (msg) {
         return '' +
             '<table style="background-color: #8CE; width: 100%; height: 100%;"><tr>' +
             '<td align="center">' +
@@ -79,7 +79,7 @@ WebGLUtils = function () {
      * Message for getting a webgl browser
      * @type {string}
      */
-    var GET_A_WEBGL_BROWSER = '' +
+    const GET_A_WEBGL_BROWSER = '' +
         'This page requires a browser that supports WebGL.<br/>' +
         '<a href="http://get.webgl.org">Click here to upgrade your browser.</a>';
 
@@ -87,7 +87,7 @@ WebGLUtils = function () {
      * Mesasge for need better hardware
      * @type {string}
      */
-    var OTHER_PROBLEM = '' +
+    const OTHER_PROBLEM = '' +
         "It doesn't appear your computer can support WebGL.<br/>" +
         '<a href="http://get.webgl.org/troubleshooting/">Click here for more information.</a>';
 
@@ -101,19 +101,20 @@ WebGLUtils = function () {
      *     creation attributes you want to pass in.
      * @return {WebGLRenderingContext} The created context.
      */
-    var setupWebGL = function (canvas, opt_attribs) {
+    const setupWebGL = function (canvas, opt_attribs) {
         function showLink(str) {
-            var container = canvas.parentNode;
+            const container = canvas.parentNode;
             if (container) {
                 container.innerHTML = makeFailHTML(str);
             }
         }
+
         if (!window.WebGLRenderingContext) {
             showLink(GET_A_WEBGL_BROWSER);
             return null;
         }
 
-        var context = create3DContext(canvas, opt_attribs);
+        let context = create3DContext(canvas, opt_attribs);
         if (!context) {
             showLink(OTHER_PROBLEM);
         }
@@ -128,10 +129,10 @@ WebGLUtils = function () {
      * @param opt_attribs
      * @return The created context.
      */
-    var create3DContext = function (canvas, opt_attribs) {
-        var names = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"];
-        var context = null;
-        for (var ii = 0; ii < names.length; ++ii) {
+    let create3DContext = function (canvas, opt_attribs) {
+        const names = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"];
+        let context = null;
+        for (let ii = 0; ii < names.length; ++ii) {
             try {
                 // noinspection Annotator
                 context = canvas.getContext(names[ii], opt_attribs);
