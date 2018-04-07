@@ -28205,26 +28205,30 @@ var kitty =
             }
 
     };
-var catmodelfinal = JSON.parse(kitty);
-var vertices[] = catmodelfinal.meshes[vertices[]];
-var head = catmodelfinal.meshes[bones[16].offsetmatrix[]];
+
+var loadJSON = function(catmodel) {
+    var vertices = kitty.meshes[vertices];
+    var head = kitty.meshes[10].bones[16].offsetmatrix;
 //left arm
-var luarm = catmodelfinal.meshes[bones[18].offsetmatrix[]];
-var llarm = catmodelfinal.meshes[bones[19].offsetmatrix[]];
-var lfpaw = catmodelfinal.meshes[bones[20].offsetmatrix[]];
+    var luarm = kitty.meshes[10].bones[18].offsetmatrix;
+    var llarm = kitty.meshes[10].bones[19].offsetmatrix;
+    var lfpaw = kitty.meshes[10].bones[20].offsetmatrix;
 //right arm
-var ruarm = catmodelfinal.meshes[bones[22].offsetmatrix[]];
-var rlarm = catmodelfinal.meshes[bones[23].offsetmatrix[]];
-var rfpaw = catmodelfinal.meshes[bones[24].offsetmatrix[]];
+    var ruarm = kitty.meshes[10].bones[22].offsetmatrix;
+    var rlarm = kitty.meshes[10].bones[23].offsetmatrix;
+    var rfpaw = kitty.meshes[10].bones[24].offsetmatrix;
 //left leg
-var luleg = catmodelfinal.meshes[bones[12].offsetmatrix[]];
-var llleg = catmodelfinal.meshes[bones[13].offsetmatrix[]];
-var lbpaw = catmodelfinal.meshes[bones[14].offsetmatrix[]];
+    var luleg = kitty.meshes[10].bones[12].offsetmatrix;
+    var llleg = kitty.meshes[10].bones[13].offsetmatrix;
+    var lbpaw = kitty.meshes[10].bones[14].offsetmatrix;
 //right leg
-var ruleg = catmodelfinal.meshes[bones[8].offsetmatrix[]];
-var rlleg = catmodelfinal.meshes[bones[9].offsetmatrix[]];
-var rbpaw = catmodelfinal.meshes[bones[10].offsetmatrix[]];
+    var ruleg = kitty.meshes[10].bones[8].offsetmatrix;
+    var rlleg = kitty.meshes[10].bones[9].offsetmatrix;
+    var rbpaw = kitty.meshes[10].bones[10].offsetmatrix;
 //tail
-var bgnt = catmodelfinal.meshes[bones[4].offsetmatrix[]];
-var midt = catmodelfinal.meshes[bones[5].offsetmatrix[]];
-var endt = catmodelfinal.meshes[bones[6].offsetmatrix[]];
+    var bgnt = kitty.meshes[10].bones[4].offsetmatrix;
+    var midt = kitty.meshes[10].bones[5].offsetmatrix;
+    var endt = kitty.meshes[10].bones[6].offsetmatrix;
+//body
+    var body = kitty.rootnode.children[2].transformation;
+};
