@@ -131,23 +131,23 @@ const variables = [
         "val": 0
     }, {
         "name": "pawFrontLeftLegAngle",
-        "min": -60,
-        "max": 60,
+        "min": -30,
+        "max": 180,
         "val": 0
     }, {
         "name": "pawFrontRightLegAngle",
-        "min": -60,
-        "max": 60,
+        "min": -30,
+        "max": 180,
         "val": 0
     }, {
         "name": "pawBackLeftLegAngle",
-        "min": -60,
-        "max": 60,
+        "min": -30,
+        "max": 180,
         "val": 0
     }, {
         "name": "pawBackRightLegAngle",
-        "min": -60,
-        "max": 60,
+        "min": -120,
+        "max": 120,
         "val": 0
     }
 ];
@@ -165,6 +165,8 @@ const headWidth = 1.0;
 let tailHeight = 1.0;
 const tailWidth = 0.5;
 
+let cameraX = 0.0, cameraY = 0.0;
+
 function createNode(transform, render, sibling, child) {
     return {
         transform: transform,
@@ -179,10 +181,10 @@ function initNodes(key) {
 
     switch (key) {
         case "torso":
-            m = translate(jointVariables["globalX"], jointVariables["globalY"], jointVariables["globalZ"]-20);
-            m = mult(m, rotate(jointVariables["globalRoll"], 1, 0, 0));
-            m = mult(m, rotate(jointVariables["globalPitch"], 0, 1, 0));
-            m = mult(m, rotate(jointVariables["globalYaw"] - 90, 0, 0, 1));
+            m = translate(jointVariables["globalX"], jointVariables["globalY"], jointVariables["globalZ"]-15);
+            m = mult(m, rotate(parseFloat(jointVariables["globalRoll"]) + cameraY, 1, 0, 0));
+            m = mult(m, rotate(parseFloat(jointVariables["globalPitch"]), 0, 1, 0));
+            m = mult(m, rotate(parseFloat(jointVariables["globalYaw"]) - 90. + cameraX, 0, 0, 1));
             m = mult(m, translate(-torsoWidth*0.5, -torsoHeight*0.5, -torsoWidth*0.5));
             figure[key] = createNode(m, renderGenerator(torsoHeight, torsoWidth), null, "head");
             break;
@@ -238,21 +240,25 @@ function initNodes(key) {
         case "pawFrontLeftLeg":
             m = translate(0.0, lowerLegHeight * 1.1, 0.0);
             m = mult(m, rotate(jointVariables[key + "Angle"], 1, 0, 0));
+            m = mult(m, translate(0, 0, pawLegWidth / -2));
             figure[key] = createNode(m, renderGenerator(pawLegHeight, pawLegWidth), null, null);
             break;
         case "pawFrontRightLeg":
             m = translate(0.0, lowerLegHeight * 1.1, 0.0);
             m = mult(m, rotate(jointVariables[key + "Angle"], 1, 0, 0));
+            m = mult(m, translate(0, 0, pawLegWidth / -2));
             figure[key] = createNode(m, renderGenerator(pawLegHeight, pawLegWidth), null, null);
             break;
         case "pawBackLeftLeg":
             m = translate(0.0, lowerLegHeight * 1.1, 0.0);
             m = mult(m, rotate(jointVariables[key + "Angle"], 1, 0, 0));
+            m = mult(m, translate(0, 0, pawLegWidth / -2));
             figure[key] = createNode(m, renderGenerator(pawLegHeight, pawLegWidth), null, null);
             break;
         case "pawBackRightLeg":
             m = translate(0.0, lowerLegHeight * 1.1, 0.0);
             m = mult(m, rotate(jointVariables[key + "Angle"], 1, 0, 0));
+            m = mult(m, translate(0, 0, pawLegWidth / -2));
             figure[key] = createNode(m, renderGenerator(pawLegHeight, pawLegWidth), null, null);
             break;
         case "tailStart":

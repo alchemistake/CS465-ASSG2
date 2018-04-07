@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="main.css">
     <script id="vertex-shader" type="x-shader/x-vertex">
 attribute  vec4 vPosition;
-attribute  vec4 vColor;
-varying vec4 fColor;
+attribute vec2 vertTexCoord;
+varying vec2 fragTexCoord;
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
@@ -16,26 +16,34 @@ uniform mat4 projectionMatrix;
 void main()
 {
     gl_Position = projectionMatrix * modelViewMatrix * vPosition;
-    fColor = vColor;
+    fragTexCoord = vertTexCoord;
 }
-
-
     </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
-#ifdef GL_ES
-precision highp float;
-#endif
+    precision mediump float;
 
+    varying vec2 fragTexCoord;
+    uniform sampler2D sampler;
 
-varying vec4 fColor;
-
-void
-main()
-{
-    gl_FragColor = fColor;
-}
+    void main(){
+        gl_FragColor = texture2D(sampler, fragTexCoord);
+    }
     </script>
+    <!--<script id="fragment-shader" type="x-shader/x-fragment">-->
+<!--#ifdef GL_ES-->
+<!--precision highp float;-->
+<!--#endif-->
+
+
+<!--varying vec4 fColor;-->
+
+<!--void-->
+<!--main()-->
+<!--{-->
+    <!--gl_FragColor = fColor;-->
+<!--}-->
+    <!--</script>-->
 
     <script type="text/javascript" src="Common/webgl-utils.js"></script>
     <script type="text/javascript" src="Common/initShaders.js"></script>
@@ -56,8 +64,13 @@ main()
 
     <tr>
         <td>
-            <button id="playStop">PLAY</button>
-            <button>Save Animation</button>
+            <button id="playStop" onclick="playStop()">PLAY</button>
+            <button onclick="saveAnimation()">Save Animation</button>
+            <button onclick="saveCurrentKeyframes()">Save Current Keyframe</button>
+            Load Animation:
+            <input type="file" id="fileAnimation" name="LoadAnimation"/>
+            Load Keyframe:
+            <input type="file" id="fileKeyframe" name="LoadKeyframe"/>
             <br>
             <div id="animator">
                 <button onclick="addKeyFrame()" id="addKeyframe">Add</button>
@@ -76,6 +89,6 @@ main()
     </tr>
 </table>
 </body>
-
+<img id="crate-image" src="crate.png" width="0" height="0"/>
 <script src="controller.js"></script>
 </html>
