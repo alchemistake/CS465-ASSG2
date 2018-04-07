@@ -2,6 +2,8 @@ const animator = document.getElementById("animator");
 let editorKeyframe = 0;
 
 function addKeyFrame() {
+    if(playing)
+        playing = false;
     const nof = document.createElement("div");
     nof.className = "noOfFrames";
     nof.innerHTML = '<input style="width:40px" size="3" value="10" type="number">';
@@ -109,6 +111,8 @@ function saveVariablesToKeyframes(index) {
 
 function updateSliderIndicator(slider, span) {
     return function () {
+        if(playing)
+            playing = false;
         span.innerText = slider.value;
         jointVariables[slider.name] = slider.value;
         requestAnimationFrame(render);
@@ -188,8 +192,12 @@ function loadAnimation(evt) {
 
     fr.onload = function (e) {
         const data = JSON.parse(e.target.result);
-        while (data["keyframes"].length < keyframes.length) {deleteKeyframe(0);}
-        while (data["keyframes"].length > keyframes.length) {addKeyFrame();}
+        while (data["keyframes"].length < keyframes.length) {
+            deleteKeyframe(0);
+        }
+        while (data["keyframes"].length > keyframes.length) {
+            addKeyFrame();
+        }
         keyframes = data["keyframes"];
         inBetweenFrameCount = data["inBetweenFrameCount"];
         loadVariablesFromKeyframes(editorKeyframe);
@@ -223,3 +231,38 @@ c.height = c.parentElement.clientHeight;
 
 document.getElementById('fileAnimation').addEventListener('change', loadAnimation, false);
 document.getElementById('fileKeyframe').addEventListener('change', loadKeyframe, false);
+
+let prevX, prevY, lastUpdate = 0;
+
+function camera(event) {
+    if (Date.now() - lastUpdate > spf) {
+        const deltaX = (event.clientX - prevX) / c.width;
+        const deltaY = (event.clientY - prevY) / c.height;
+
+        cameraX += -1 * deltaX * 180;
+        cameraY += deltaY * 180;
+
+        prevX = event.clientX;
+        prevY = event.clientY;
+
+        if (!playing)
+            requestAnimFrame(render);
+        lastUpdate = Date.now();
+    }
+}
+
+c.addEventListener("mousedown", function (event) {
+    prevX = event.clientX;
+    prevY = event.clientY;
+
+    c.addEventListener("mousemove", camera)
+});
+
+function finish() {
+    c.removeEventListener("mousemove", camera);
+    if (!playing)
+        requestAnimFrame(render);
+}
+
+c.addEventListener("mouseup", finish);
+c.addEventListener("mouseleave", finish);

@@ -16,7 +16,7 @@ let modelViewMatrix;
 let instanceMatrix;
 let modelViewMatrixLoc;
 
-var catmodel = JSON.parse("correctcat.json");
+let catmodel = JSON.parse("correctcat.json");
 
 const vertices = catmodel.meshes.vertices[];
 const vertexColors = [
