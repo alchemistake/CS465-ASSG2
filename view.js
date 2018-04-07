@@ -16,6 +16,8 @@ let modelViewMatrix;
 let instanceMatrix;
 let modelViewMatrixLoc;
 
+let crateTexture, wallTexture, carpetTexture, ceilTexture;
+
 const vertices = [
     [-0.5, -0.5, 0.5],
     [-0.5, 0.5, 0.5],
@@ -29,6 +31,7 @@ const vertices = [
 
 const jointVariables = {};
 const figure = {
+    "room": null,
     "global": null,
     "torso": null,
     "head": null,
@@ -103,8 +106,8 @@ window.onload = function init() {
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
 
-    const boxTexture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, boxTexture);
+    crateTexture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, crateTexture);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
@@ -113,6 +116,45 @@ window.onload = function init() {
         gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,
         gl.UNSIGNED_BYTE,
         document.getElementById('crate-image')
+    );
+    gl.bindTexture(gl.TEXTURE_2D, null);
+
+    wallTexture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, wallTexture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texImage2D(
+        gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        document.getElementById('wall-image')
+    );
+    gl.bindTexture(gl.TEXTURE_2D, null);
+
+    carpetTexture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, carpetTexture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texImage2D(
+        gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        document.getElementById('carpet-image')
+    );
+    gl.bindTexture(gl.TEXTURE_2D, null);
+
+    ceilTexture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, ceilTexture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texImage2D(
+        gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        document.getElementById('ceil-image')
     );
     gl.bindTexture(gl.TEXTURE_2D, null);
 
@@ -132,23 +174,12 @@ window.onload = function init() {
 
     cube();
 
-    // cBuffer = gl.createBuffer();
-    // gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
-    // gl.bufferData(gl.ARRAY_BUFFER, flatten(colorsArray), gl.STATIC_DRAW);
-    //
-    // const vColor = gl.getAttribLocation(program, "vColor");
-    // gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, 0, 0);
-    // gl.enableVertexAttribArray(vColor);
-
     vBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
 
     const vPosition = gl.getAttribLocation(program, "vPosition");
-    // gl.vertexAttribPointer(vPosition, 5, gl.FLOAT, false, 0, 0);
-    // gl.enableVertexAttribArray(vPosition);
-
-    const texCoordAttribLocation = gl.getAttribLocation(program, 'vertTexCoord');
+    const vTexPosition = gl.getAttribLocation(program, 'vertTexCoord');
 
     gl.vertexAttribPointer(
         vPosition, // Attribute location
@@ -159,7 +190,7 @@ window.onload = function init() {
         0 // Offset from the beginning of a single vertex to this attribute
     );
     gl.vertexAttribPointer(
-        texCoordAttribLocation, // Attribute location
+        vTexPosition, // Attribute location
         2, // Number of elements per attribute
         gl.FLOAT, // Type of elements
         gl.FALSE,
@@ -168,9 +199,9 @@ window.onload = function init() {
     );
 
     gl.enableVertexAttribArray(vPosition);
-    gl.enableVertexAttribArray(texCoordAttribLocation);
+    gl.enableVertexAttribArray(vTexPosition);
 
-    gl.bindTexture(gl.TEXTURE_2D, boxTexture);
+    gl.bindTexture(gl.TEXTURE_2D, crateTexture);
     gl.activeTexture(gl.TEXTURE0);
     render();
 };
@@ -181,5 +212,5 @@ function render() {
     }
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    traverse("torso");
+    traverse("room");
 }

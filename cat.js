@@ -152,6 +152,8 @@ const variables = [
     }
 ];
 
+const roomHeight = 20.0;
+const roomWidth = 50.0;
 let torsoHeight = 5.0;
 let torsoWidth = 1.0;
 const upperLegHeight = 1.;
@@ -180,11 +182,31 @@ function initNodes(key) {
     let m = mat4();
 
     switch (key) {
+        case "room":
+            m = translate(0.0, -0.5*roomHeight, -0.6*roomWidth);
+            m = mult(m, rotate(cameraY, 1, 0, 0));
+            m = mult(m, rotate(cameraX, 0, 1, 0));
+            figure[key] = createNode(m, function(){
+                instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * roomHeight, 0.0));
+                instanceMatrix = mult(instanceMatrix, scale4(roomWidth, roomHeight, roomWidth));
+                gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+                gl.bindTexture(gl.TEXTURE_2D, wallTexture);
+                gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+                gl.drawArrays(gl.TRIANGLE_FAN, 4, 4);
+                gl.drawArrays(gl.TRIANGLE_FAN, 16, 4);
+                gl.drawArrays(gl.TRIANGLE_FAN, 20, 4);
+                gl.bindTexture(gl.TEXTURE_2D, carpetTexture);
+                gl.drawArrays(gl.TRIANGLE_FAN, 8, 4);
+                gl.bindTexture(gl.TEXTURE_2D, ceilTexture);
+                gl.drawArrays(gl.TRIANGLE_FAN, 12, 4);
+                gl.bindTexture(gl.TEXTURE_2D, crateTexture);
+            }, null, "torso");
+            break;
         case "torso":
-            m = translate(jointVariables["globalX"], jointVariables["globalY"], jointVariables["globalZ"]-15);
-            m = mult(m, rotate(parseFloat(jointVariables["globalRoll"]) + cameraY, 1, 0, 0));
+            m = translate(jointVariables["globalX"], parseFloat(jointVariables["globalY"]) + 2, jointVariables["globalZ"]);
+            m = mult(m, rotate(parseFloat(jointVariables["globalRoll"]), 1, 0, 0));
             m = mult(m, rotate(parseFloat(jointVariables["globalPitch"]), 0, 1, 0));
-            m = mult(m, rotate(parseFloat(jointVariables["globalYaw"]) - 90. + cameraX, 0, 0, 1));
+            m = mult(m, rotate(parseFloat(jointVariables["globalYaw"]), 0, 0, 1));
             m = mult(m, translate(-torsoWidth*0.5, -torsoHeight*0.5, -torsoWidth*0.5));
             figure[key] = createNode(m, renderGenerator(torsoHeight, torsoWidth), null, "head");
             break;
