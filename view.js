@@ -177,18 +177,9 @@ function render() {
 
 function generateTexture(textureName) {
     textures[textureName] = gl.createTexture();
-    //
-    // gl.bindTexture(gl.TEXTURE_2D, textures[textureName]);
-    // gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, document.getElementById(textureName));
-    const image = new Image();
-    image.src = "Textures/" + textureName + ".png";
-    image.addEventListener('load', function () {
-        // Now that the image has loaded make copy it to the texture.
-        gl.bindTexture(gl.TEXTURE_2D, textures[textureName]);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 
-        gl.generateMipmap(gl.TEXTURE_2D);
-    });
+    gl.bindTexture(gl.TEXTURE_2D, textures[textureName]);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, document.getElementById(textureName));
 }
 
 function changeTexture(name) {
