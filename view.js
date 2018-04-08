@@ -16,7 +16,12 @@ let modelViewMatrix;
 let instanceMatrix;
 let modelViewMatrixLoc;
 
-let crateTexture, wallTexture, carpetTexture, ceilTexture;
+let textures = {
+    "fur": null,
+    "wall": null,
+    "carpet": null,
+    "ceil": null
+};
 
 const vertices = [
     [-0.5, -0.5, 0.5],
@@ -106,57 +111,10 @@ window.onload = function init() {
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
 
-    crateTexture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, crateTexture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texImage2D(
-        gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,
-        gl.UNSIGNED_BYTE,
-        document.getElementById('crate-image')
-    );
-    gl.bindTexture(gl.TEXTURE_2D, null);
-
-    wallTexture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, wallTexture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texImage2D(
-        gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,
-        gl.UNSIGNED_BYTE,
-        document.getElementById('wall-image')
-    );
-    gl.bindTexture(gl.TEXTURE_2D, null);
-
-    carpetTexture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, carpetTexture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texImage2D(
-        gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,
-        gl.UNSIGNED_BYTE,
-        document.getElementById('carpet-image')
-    );
-    gl.bindTexture(gl.TEXTURE_2D, null);
-
-    ceilTexture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, ceilTexture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texImage2D(
-        gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,
-        gl.UNSIGNED_BYTE,
-        document.getElementById('ceil-image')
-    );
-    gl.bindTexture(gl.TEXTURE_2D, null);
+    generateTexture("fur");
+    generateTexture("wall");
+    generateTexture("carpet");
+    generateTexture("ceil");
 
     gl.useProgram(program);
 
@@ -201,8 +159,9 @@ window.onload = function init() {
     gl.enableVertexAttribArray(vPosition);
     gl.enableVertexAttribArray(vTexPosition);
 
-    gl.bindTexture(gl.TEXTURE_2D, crateTexture);
+    gl.bindTexture(gl.TEXTURE_2D, textures["fur"]);
     gl.activeTexture(gl.TEXTURE0);
+
     render();
 };
 
@@ -213,4 +172,16 @@ function render() {
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     traverse("room");
+}
+
+function generateTexture(textureName) {
+    textures[textureName] = gl.createTexture();
+
+    gl.bindTexture(gl.TEXTURE_2D, textures[textureName]);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, document.getElementById(textureName));
+
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 }
