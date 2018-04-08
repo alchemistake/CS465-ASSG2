@@ -10,44 +10,30 @@
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
     <script id="vertex-shader" type="x-shader/x-vertex">
-attribute  vec4 vPosition;
-attribute vec2 vertTexCoord;
-varying vec2 fragTexCoord;
+    attribute  vec4 vPosition;
+    attribute vec2 vTexPosition;
+    varying vec2 fTexPosition;
 
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
+    uniform mat4 modelViewMatrix;
+    uniform mat4 projectionMatrix;
 
-void main()
-{
-    gl_Position = projectionMatrix * modelViewMatrix * vPosition;
-    fragTexCoord = vertTexCoord;
-}
+    void main()
+    {
+        gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+        fTexPosition = vTexPosition;
+    }
     </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
     precision mediump float;
 
-    varying vec2 fragTexCoord;
+    varying vec2 fTexPosition;
     uniform sampler2D sampler;
 
     void main(){
-        gl_FragColor = texture2D(sampler, fragTexCoord);
+        gl_FragColor = texture2D(sampler, fTexPosition);
     }
     </script>
-    <!--<script id="fragment-shader" type="x-shader/x-fragment">-->
-<!--#ifdef GL_ES-->
-<!--precision highp float;-->
-<!--#endif-->
-
-
-<!--varying vec4 fColor;-->
-
-<!--void-->
-<!--main()-->
-<!--{-->
-    <!--gl_FragColor = fColor;-->
-<!--}-->
-    <!--</script>-->
 
     <script type="text/javascript" src="Common/webgl-utils.js"></script>
     <script type="text/javascript" src="Common/initShaders.js"></script>

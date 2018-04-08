@@ -190,19 +190,16 @@ function initNodes(key) {
                 instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * roomHeight, 0.0));
                 instanceMatrix = mult(instanceMatrix, scale4(roomWidth, roomHeight, roomWidth));
                 gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
-                gl.bindTexture(gl.TEXTURE_2D, textures["wall"]);
+                changeTexture("wall");
                 gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
                 gl.drawArrays(gl.TRIANGLE_FAN, 4, 4);
                 gl.drawArrays(gl.TRIANGLE_FAN, 16, 4);
                 gl.drawArrays(gl.TRIANGLE_FAN, 20, 4);
-                gl.bindTexture(gl.TEXTURE_2D, textures["carpet"]);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+                changeTexture("carpet");
                 gl.drawArrays(gl.TRIANGLE_FAN, 8, 4);
-                gl.bindTexture(gl.TEXTURE_2D, textures["ceil"]);
+                changeTexture("ceil");
                 gl.drawArrays(gl.TRIANGLE_FAN, 12, 4);
-                gl.bindTexture(gl.TEXTURE_2D, textures["fur"]);
+                changeTexture("fur");
             }, null, "torso");
             break;
         case "torso":
