@@ -26,8 +26,8 @@ const variables = [
         "val": 0
     }, {
         "name": "globalZ",
-        "min": -50,
-        "max": 10,
+        "min": -20,
+        "max": 20,
         "val": 0
     }, {
         "name": "headYaw",
@@ -42,7 +42,7 @@ const variables = [
     }, {
         "name": "headRoll",
         "min": -15,
-        "max": 15,
+        "max": 45,
         "val": 0
     }, {
         "name": "tailStartYaw",
@@ -91,43 +91,43 @@ const variables = [
         "val": 0
     }, {
         "name": "upperFrontLeftLegAngle",
-        "min": 60,
+        "min": 30,
         "max": 120,
         "val": 90
     }, {
         "name": "upperFrontRightLegAngle",
-        "min": 60,
+        "min": 30,
         "max": 120,
         "val": 90
     }, {
         "name": "upperBackLeftLegAngle",
-        "min": 60,
+        "min": 30,
         "max": 120,
         "val": 90
     }, {
         "name": "upperBackRightLegAngle",
-        "min": 60,
+        "min": 30,
         "max": 120,
         "val": 90
     }, {
         "name": "lowerFrontLeftLegAngle",
-        "min": -30,
+        "min": -60,
         "max": 30,
         "val": 0
     }, {
         "name": "lowerFrontRightLegAngle",
-        "min": -30,
+        "min": -60,
         "max": 30,
         "val": 0
     }, {
         "name": "lowerBackLeftLegAngle",
         "min": -30,
-        "max": 60,
+        "max": 90,
         "val": 0
     }, {
         "name": "lowerBackRightLegAngle",
         "min": -30,
-        "max": 60,
+        "max": 90,
         "val": 0
     }, {
         "name": "pawFrontLeftLegAngle",
@@ -154,7 +154,7 @@ const variables = [
 
 const roomHeight = 20.0;
 const roomWidth = 50.0;
-let torsoHeight = 5.0;
+let torsoHeight = 4.0;
 let torsoWidth = 1.0;
 const upperLegHeight = 1.;
 const upperLegWidth = 0.5;
@@ -183,10 +183,10 @@ function initNodes(key) {
 
     switch (key) {
         case "room":
-            m = translate(0.0, -0.5*roomHeight, -0.6*roomWidth);
+            m = translate(0.0, -0.5 * roomHeight, -0.6 * roomWidth);
             m = mult(m, rotate(cameraY, 1, 0, 0));
             m = mult(m, rotate(cameraX, 0, 1, 0));
-            figure[key] = createNode(m, function(){
+            figure[key] = createNode(m, function () {
                 instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * roomHeight, 0.0));
                 instanceMatrix = mult(instanceMatrix, scale4(roomWidth, roomHeight, roomWidth));
                 gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
@@ -207,7 +207,7 @@ function initNodes(key) {
             m = mult(m, rotate(parseFloat(jointVariables["globalRoll"]), 1, 0, 0));
             m = mult(m, rotate(parseFloat(jointVariables["globalPitch"]), 0, 1, 0));
             m = mult(m, rotate(parseFloat(jointVariables["globalYaw"]), 0, 0, 1));
-            m = mult(m, translate(-torsoWidth*0.5, -torsoHeight*0.5, -torsoWidth*0.5));
+            m = mult(m, translate(-torsoWidth * 0.5, -torsoHeight * 0.5, -torsoWidth * 0.5));
             figure[key] = createNode(m, renderGenerator(torsoHeight, torsoWidth), null, "head");
             break;
         case "head":
@@ -229,13 +229,13 @@ function initNodes(key) {
             break;
         case "upperBackLeftLeg":
             // noinspection JSSuspiciousNameCombination
-            m = translate(-torsoWidth, upperLegWidth, 0.0);
+            m = translate(-torsoWidth, upperLegWidth * 2, 0.0);
             m = mult(m, rotate(jointVariables[key + "Angle"], 1, 0, 0));
             figure[key] = createNode(m, renderGenerator(upperLegHeight, upperLegWidth), "upperBackRightLeg", "lowerBackLeftLeg");
             break;
         case "upperBackRightLeg":
             // noinspection JSSuspiciousNameCombination
-            m = translate(torsoWidth, upperLegWidth, 0.0);
+            m = translate(torsoWidth, upperLegWidth * 2, 0.0);
             m = mult(m, rotate(jointVariables[key + "Angle"], 1, 0, 0));
             figure[key] = createNode(m, renderGenerator(upperLegHeight, upperLegWidth), "tailStart", "lowerBackRightLeg");
             break;
