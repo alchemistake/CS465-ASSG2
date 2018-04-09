@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <img src="https://github.com/alchemistake/CS465-ASSG2/raw/master/Textures/carpet.png" id="carpet" hidden/>
-    <img src="https://github.com/alchemistake/CS465-ASSG2/raw/master/Textures/ceil.png" id="ceil" hidden/>
-    <img src="https://github.com/alchemistake/CS465-ASSG2/raw/master/Textures/fur.png" id="fur" hidden/>
-    <img src="https://github.com/alchemistake/CS465-ASSG2/raw/master/Textures/wall.png" id="wall" hidden/>
+    <img src="Textures/carpet.png" id="carpet" hidden/>
+    <img src="Textures/ceil.png" id="ceil" hidden/>
+    <img src="Textures/fur.png" id="fur" hidden/>
+    <img src="Textures/wall.png" id="wall" hidden/>
     <meta charset="UTF-8">
     <title>CS465 ASSG2</title>
     <link rel="stylesheet" href="reset.css">
@@ -61,6 +61,7 @@
             <input type="file" id="fileAnimation" name="LoadAnimation"/>
             Load Keyframe:
             <input type="file" id="fileKeyframe" name="LoadKeyframe"/>
+            <button onclick="loadRun()">Running</button>
             <br>
             <div id="animator">
                 <button onclick="addKeyFrame()" id="addKeyframe">Add</button>

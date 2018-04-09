@@ -2,7 +2,7 @@ const animator = document.getElementById("animator");
 let editorKeyframe = 0;
 
 function addKeyFrame() {
-    if(playing)
+    if (playing)
         playing = false;
     const nof = document.createElement("div");
     nof.className = "noOfFrames";
@@ -111,7 +111,7 @@ function saveVariablesToKeyframes(index) {
 
 function updateSliderIndicator(slider, span) {
     return function () {
-        if(playing)
+        if (playing)
             playing = false;
         span.innerText = slider.value;
         jointVariables[slider.name] = slider.value;
@@ -191,21 +191,36 @@ function loadAnimation(evt) {
     const fr = new FileReader();
 
     fr.onload = function (e) {
-        const data = JSON.parse(e.target.result);
-        while (data["keyframes"].length < keyframes.length) {
-            deleteKeyframe(0);
-        }
-        while (data["keyframes"].length > keyframes.length) {
-            addKeyFrame();
-        }
-        keyframes = data["keyframes"];
-        inBetweenFrameCount = data["inBetweenFrameCount"];
-        loadVariablesFromKeyframes(editorKeyframe);
-
-        requestAnimationFrame(render)
+        loadFromText(e.target.result);
     };
 
     fr.readAsText(file);
+}
+
+function loadFromText(text) {
+    const data = JSON.parse(text);
+    while (data["keyframes"].length < keyframes.length) {
+        deleteKeyframe(0);
+    }
+    while (data["keyframes"].length > keyframes.length) {
+        addKeyFrame();
+    }
+    keyframes = data["keyframes"];
+    inBetweenFrameCount = data["inBetweenFrameCount"];
+    let textboxes = document.getElementsByClassName("noOfFrames");
+
+    for (let i = 0; i < inBetweenFrameCount.length; i++) {
+        textboxes[i].firstChild.value = inBetweenFrameCount[i];
+        console.log(inBetweenFrameCount[i]);
+    }
+
+    loadVariablesFromKeyframes(editorKeyframe);
+
+    requestAnimationFrame(render)
+}
+
+function loadRun() {
+    loadFromText('{"keyframes":[{"globalYaw":"0","globalPitch":"0","globalRoll":"82.3","globalX":"0","globalY":"0","globalZ":"0","headYaw":"0","headPitch":"0","headRoll":"12.5","tailStartYaw":"0","tailStartPitch":"30","tailStartRoll":"-23.2","tailMidYaw":"0","tailMidPitch":"-30","tailMidRoll":"15.4","tailEndYaw":"0","tailEndPitch":"30","tailEndRoll":"21.5","upperFrontLeftLegAngle":"120","upperFrontRightLegAngle":"116.2","upperBackLeftLegAngle":"60","upperBackRightLegAngle":"60.1","lowerFrontLeftLegAngle":"30","lowerFrontRightLegAngle":"30","lowerBackLeftLegAngle":"60","lowerBackRightLegAngle":"60","pawFrontLeftLegAngle":"121.1","pawFrontRightLegAngle":"120.5","pawBackLeftLegAngle":"-30","pawBackRightLegAngle":"-30"},{"globalYaw":"0","globalPitch":"-0.3","globalRoll":"81.3","globalX":"0","globalY":"0.5","globalZ":"0","headYaw":"-1.7","headPitch":"-1.6","headRoll":"9.4","tailStartYaw":"0","tailStartPitch":"30","tailStartRoll":"-8.5","tailMidYaw":"0","tailMidPitch":"-30","tailMidRoll":"-2.5","tailEndYaw":"0","tailEndPitch":"30","tailEndRoll":"21.5","upperFrontLeftLegAngle":"60","upperFrontRightLegAngle":"60","upperBackLeftLegAngle":"120","upperBackRightLegAngle":"120","lowerFrontLeftLegAngle":"-30","lowerFrontRightLegAngle":"-19.2","lowerBackLeftLegAngle":"30","lowerBackRightLegAngle":"30","pawFrontLeftLegAngle":"180","pawFrontRightLegAngle":"88.4","pawBackLeftLegAngle":"88.6","pawBackRightLegAngle":"88.9"},{"globalYaw":"0","globalPitch":"-0.3","globalRoll":"100.4","globalX":"0","globalY":"0.2","globalZ":"0","headYaw":"-1.7","headPitch":"-1.6","headRoll":"-15","tailStartYaw":"0","tailStartPitch":"30","tailStartRoll":"4.5","tailMidYaw":"0","tailMidPitch":"-30","tailMidRoll":"-14.3","tailEndYaw":"0","tailEndPitch":"30","tailEndRoll":"-24.8","upperFrontLeftLegAngle":"60","upperFrontRightLegAngle":"116","upperBackLeftLegAngle":"60","upperBackRightLegAngle":"89.5","lowerFrontLeftLegAngle":"-30","lowerFrontRightLegAngle":"-19.2","lowerBackLeftLegAngle":"60","lowerBackRightLegAngle":"60","pawFrontLeftLegAngle":"69.6","pawFrontRightLegAngle":"-12.7","pawBackLeftLegAngle":"-30","pawBackRightLegAngle":"-30"}],"inBetweenFrameCount":[10,15,15]}')
 }
 
 function loadKeyframe(evt) {

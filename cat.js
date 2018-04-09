@@ -122,12 +122,12 @@ const variables = [
     }, {
         "name": "lowerBackLeftLegAngle",
         "min": -30,
-        "max": 30,
+        "max": 60,
         "val": 0
     }, {
         "name": "lowerBackRightLegAngle",
         "min": -30,
-        "max": 30,
+        "max": 60,
         "val": 0
     }, {
         "name": "pawFrontLeftLegAngle",
@@ -146,8 +146,8 @@ const variables = [
         "val": 0
     }, {
         "name": "pawBackRightLegAngle",
-        "min": -120,
-        "max": 120,
+        "min": -30,
+        "max": 180,
         "val": 0
     }
 ];

@@ -80,11 +80,11 @@ function renderGenerator(height, width) {
     }
 }
 
-function quad(a, b, c, d) {
-    pointsArray.push([...vertices[a], 0.0, 0.0]);
-    pointsArray.push([...vertices[b], 0.0, 1.0]);
-    pointsArray.push([...vertices[c], 1.0, 1.0]);
-    pointsArray.push([...vertices[d], 1.0, 0.0]);
+function quad(a, b, c, d,) {
+    pointsArray.push([...vertices[a], 1.5, 1.5]);
+    pointsArray.push([...vertices[b], 1.5, -1.5]);
+    pointsArray.push([...vertices[c], -1.5, -1.5]);
+    pointsArray.push([...vertices[d], -1.5, 1.5]);
 }
 
 function cube() {
@@ -184,7 +184,7 @@ function generateTexture(textureName) {
 
 function changeTexture(name) {
     gl.bindTexture(gl.TEXTURE_2D, textures[name]);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.generateMipmap(gl.TEXTURE_2D);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT);
 }
