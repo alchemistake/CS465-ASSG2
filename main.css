@@ -7,6 +7,23 @@ body {
     width: auto;
 }
 
+button, input[type=submit], input[type=file]{
+    background-color: peachpuff;
+}
+
+container1{
+    display: block;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    height: auto;
+    width: 30%;
+    background-color: coral;
+    text-align: justify;
+    padding: 30px;
+    border: firebrick 2px dot-dot-dash;
+}
+
 table {
     table-layout: fixed;
     border-collapse: collapse;
@@ -49,7 +66,7 @@ input {
 
 #filter {
     width: 48%;
-    margin: 1%;
+    margin: 25%;
     position: absolute;
     bottom: 0;
 }

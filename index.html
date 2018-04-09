@@ -22,6 +22,7 @@
         gl_Position = projectionMatrix * modelViewMatrix * vPosition;
         fTexPosition = vTexPosition;
     }
+
     </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
@@ -33,6 +34,7 @@
     void main(){
         gl_FragColor = texture2D(sampler, fTexPosition);
     }
+
     </script>
 
     <script type="text/javascript" src="Common/webgl-utils.js"></script>
@@ -55,18 +57,26 @@
 
     <tr>
         <td>
-            <button id="playStop" onclick="playStop()">PLAY</button>
-            <button onclick="saveAnimation()">Save Animation</button>
-            <button onclick="saveCurrentKeyframes()">Save Current Keyframe</button>
-            Load Animation:
-            <input type="file" id="fileAnimation" name="LoadAnimation"/>
-            Load Keyframe:
-            <input type="file" id="fileKeyframe" name="LoadKeyframe"/>
-            <button onclick="loadRun()">Running</button>
-            <button onclick="loadWalk()">Walking</button>
-            <button onclick="loadRunCycle()">Run Cycle</button>
-            <button onclick="loadWalkCycle()">Walk Cycle</button>
-            <button onclick="loadAttack()">Attack</button>
+            <container1>
+                <button id="playStop" onclick="playStop()">PLAY</button>
+                <button onclick="saveAnimation()">Save Animation</button>
+                <button onclick="saveCurrentKeyframes()">Save Current Keyframe</button>
+                <br>
+                <br>
+                <p style="text-align: left;font-size: 18px;">Load Animation:</p>
+                <input type="file" id="fileAnimation" name="LoadAnimation"/>
+                <p style="text-align: left;font-size: 18px;">Load Keyframe:</p>
+                <input type="file" id="fileKeyframe" name="LoadKeyframe"/>
+                <br>
+                <br>
+                <button onclick="loadRun()">Running</button>
+                <button onclick="loadWalk()">Walking</button>
+                <button onclick="loadAttack()">Attack</button>
+                <br>
+                <br>
+                <button onclick="loadRunCycle()">Run Cycle</button>
+                <button onclick="loadWalkCycle()">Walk Cycle</button>
+            </container1>
             <br>
             <div id="animator">
                 <button onclick="addKeyFrame()" id="addKeyframe">Add</button>
