@@ -1,3 +1,4 @@
+// This file was based on the man example of the book but heavily edited
 function scale4(a, b, c) {
     const result = mat4();
     result[0][0] = a;
@@ -16,6 +17,7 @@ let modelViewMatrix;
 let instanceMatrix;
 let modelViewMatrixLoc;
 
+// Textures are hold here to have access from multiple scripts
 let textures = {
     "fur": null,
     "wall": null,
@@ -23,6 +25,7 @@ let textures = {
     "ceil": null
 };
 
+// Vertices of cube
 const vertices = [
     [-0.5, -0.5, 0.5],
     [-0.5, 0.5, 0.5],
@@ -34,6 +37,8 @@ const vertices = [
     [0.5, -0.5, -0.5]
 ];
 
+// Figure and Joint variables are converted to objects for ease of use
+// And there is added figure parts and joints
 const jointVariables = {};
 const figure = {
     "room": null,
@@ -61,6 +66,7 @@ const stack = [];
 let vBuffer;
 const pointsArray = [];
 
+// Traverses the hierarchy tree
 function traverse(key) {
     if (key == null) return;
     stack.push(modelViewMatrix);
@@ -71,6 +77,7 @@ function traverse(key) {
     if (figure[key].sibling != null) traverse(figure[key].sibling);
 }
 
+// A function creator for each part of figure to reduce the code clutter.
 function renderGenerator(height, width) {
     return function () {
         instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * height, 0.0));
@@ -80,6 +87,7 @@ function renderGenerator(height, width) {
     }
 }
 
+// Quad function is updated to accommodate for the texture locations
 function quad(a, b, c, d,) {
     pointsArray.push([...vertices[a], 1.5, 1.5]);
     pointsArray.push([...vertices[b], 1.5, -1.5]);
@@ -107,10 +115,12 @@ window.onload = function init() {
 
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.clearColor(.5, .5, .5, 1.0);
+    // Depth test was not enable in the original
     gl.enable(gl.DEPTH_TEST);
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
 
+    // Create the texture for later use
     generateTexture("fur");
     generateTexture("wall");
     generateTexture("carpet");
@@ -120,8 +130,8 @@ window.onload = function init() {
 
     instanceMatrix = mat4();
 
+    // Projection is changed to perspective for more realistic look
     projectionMatrix = perspective(45., (1. * canvas.clientWidth) / canvas.clientHeight, 10, 100.);
-    //projectionMatrix = ortho(-10.0, 10.0, -10.0 * (canvas.clientHeight / canvas.clientWidth), 10.0 * (canvas.clientHeight / canvas.clientWidth), -10.0, 10.0);
 
     modelViewMatrix = mat4();
 
@@ -139,33 +149,20 @@ window.onload = function init() {
     const vPosition = gl.getAttribLocation(program, "vPosition");
     const vTexPosition = gl.getAttribLocation(program, 'vTexPosition');
 
-    gl.vertexAttribPointer(
-        vPosition, // Attribute location
-        3, // Number of elements per attribute
-        gl.FLOAT, // Type of elements
-        gl.FALSE,
-        5 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-        0 // Offset from the beginning of a single vertex to this attribute
-    );
-    gl.vertexAttribPointer(
-        vTexPosition, // Attribute location
-        2, // Number of elements per attribute
-        gl.FLOAT, // Type of elements
-        gl.FALSE,
-        5 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-        3 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
-    );
+    // Code for enabling x,y,z, u and v coordinates
+    gl.vertexAttribPointer(vPosition, 3, gl.FLOAT, gl.FALSE, 5 * Float32Array.BYTES_PER_ELEMENT, 0);
+    gl.vertexAttribPointer(vTexPosition, 2, gl.FLOAT, gl.FALSE, 5 * Float32Array.BYTES_PER_ELEMENT, 3 * Float32Array.BYTES_PER_ELEMENT);
 
     gl.enableVertexAttribArray(vPosition);
     gl.enableVertexAttribArray(vTexPosition);
 
-    // gl.bindTexture(gl.TEXTURE_2D, textures["fur"]);
     gl.activeTexture(gl.TEXTURE0);
     changeTexture("fur");
 
     render();
 };
 
+// Applies the updates in joint variables as transformations and renders the new position
 function render() {
     for (let key in figure) {
         initNodes(key);
@@ -175,6 +172,7 @@ function render() {
     traverse("room");
 }
 
+// Creates texture object
 function generateTexture(textureName) {
     textures[textureName] = gl.createTexture();
 
@@ -182,6 +180,7 @@ function generateTexture(textureName) {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, document.getElementById(textureName));
 }
 
+// Wrapper for gl.bindtexture function to increase ease of use
 function changeTexture(name) {
     gl.bindTexture(gl.TEXTURE_2D, textures[name]);
     gl.generateMipmap(gl.TEXTURE_2D);

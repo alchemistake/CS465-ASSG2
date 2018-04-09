@@ -1,3 +1,4 @@
+// Joint variables for generating editor screen.
 const variables = [
     {
         "name": "globalYaw",
@@ -152,6 +153,7 @@ const variables = [
     }
 ];
 
+// Height Width information of each joint and room
 const roomHeight = 20.0;
 const roomWidth = 50.0;
 let torsoHeight = 4.0;
@@ -167,8 +169,10 @@ const headWidth = 1.0;
 let tailHeight = 1.0;
 const tailWidth = 0.5;
 
+// Camera movement angles on their axis
 let cameraX = 0.0, cameraY = 0.0;
 
+// Object for hierarchy nodes
 function createNode(transform, render, sibling, child) {
     return {
         transform: transform,
@@ -178,6 +182,7 @@ function createNode(transform, render, sibling, child) {
     };
 }
 
+// The main function that defines hierarchy
 function initNodes(key) {
     let m = mat4();
 
