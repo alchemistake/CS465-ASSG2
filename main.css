@@ -11,13 +11,12 @@ button, input[type=submit], input[type=file]{
     background-color: peachpuff;
 }
 
-container1{
+container{
     display: block;
     position: fixed;
     right: 0px;
     top: 0px;
     height: auto;
-    width: 30%;
     background-color: coral;
     text-align: justify;
     padding: 30px;
@@ -66,8 +65,10 @@ input {
 
 #filter {
     width: 48%;
-    margin: 25%;
+    margin-left: 25%;
+    margin-bottom: 10%;
     position: absolute;
+    background: peachpuff;
     bottom: 0;
 }
 

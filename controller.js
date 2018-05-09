@@ -50,13 +50,13 @@ function redoKeyframes() {
         kfs[i].setAttribute("data-index", i.toString());
     }
     // Active editor frame logic
-    if (kfs.length === 1) {
-        kfs[0].parentNode.lastChild.disabled = true;
-    } else { // noinspection Annotator
-        if (kfs[0].parentNode.lastChild.disabled) {
-            kfs[0].parentNode.lastChild.disabled = false;
-        }
-    }
+    // if (kfs.length === 1) {
+    //     // kfs[0].parentNode.lastChild.disabled = true;
+    // } else { // noinspection Annotator
+    //     if (kfs[0].parentNode.lastChild.disabled) {
+    //         kfs[0].parentNode.lastChild.disabled = false;
+    //     }
+    // }
 
     updateInBetweenFrameCount();
 }
@@ -157,7 +157,7 @@ function activateKeyframe(index, deleting) {
         keyframeButtons[editorKeyframe].disabled = false;
     } catch (err) {
     }
-    keyframeButtons[index].disabled = true;
+    // keyframeButtons[index].disabled = true;
     editorKeyframe = index;
 }
 
